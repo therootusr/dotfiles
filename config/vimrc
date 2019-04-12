@@ -15,13 +15,21 @@ filetype plugin indent on
 " ~vundle
 
 syntax on
-set relativenumber
+set number relativenumber
 set autoindent
 set smartindent
 set cursorline
 set ruler
 set laststatus=2
 set wrap textwidth=0 wrapmargin=0 linebreak
+set tabstop=2 expandtab shiftwidth=2
+set visualbell
+set noerrorbells
+
+" vim search
+set incsearch
+set nowrapscan
+set hlsearch
 
 let mapleader="\<tab>"
 
@@ -31,18 +39,17 @@ noremap ; i
 noremap j h
 noremap k j
 noremap q b
-noremap <CR> o<ESC>k
 
 " noremap tabs
-noremap tn :tabnew<SPACE>
-noremap tj :tabprev<CR>
-noremap tl :tabnext<CR>
-noremap ti :tabfirst<CR>
-noremap tk :tablast<CR>
-noremap tx :q!<CR>
-noremap ts :wq<CR>
-noremap tq :q<CR>
-noremap tw :w<CR>
+noremap <leader>n :tabnew<SPACE>
+noremap <leader>j :tabprev<CR>
+noremap <leader>l :tabnext<CR>
+noremap <leader>i :tabfirst<CR>
+noremap <leader>k :tablast<CR>
+noremap <leader>x :q!<CR>
+noremap <leader>s :wq<CR>
+noremap <leader>q :q<CR>
+noremap <leader>w :w<CR>
 noremap <leader>1 1gt
 noremap <leader>2 2gt
 noremap <leader>3 3gt
@@ -56,4 +63,7 @@ noremap <leader>9 9gt
 " noremap NERDTree
 noremap t1 :NERDTreeToggle<CR>
 
-
+" different cursor shape in different modes
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
