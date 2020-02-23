@@ -25,7 +25,9 @@ bindkey '^r' history-incremental-search-backward
 bindkey '^s' history-incremental-search-forward
 
 # if mode indicator wasn't setup by theme, define default
-if [[ "$MODE_INDICATOR" == "" ]]; then
+# Work around possible set -o nounset
+mode=${MODE_INDICATOR:-}
+if [[ "$mode" == "" ]]; then
   MODE_INDICATOR="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
 fi
 

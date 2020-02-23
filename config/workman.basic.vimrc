@@ -1,36 +1,12 @@
-" vundle
 set nocompatible
 set hidden
 filetype off
-
-" set the runtime path to include Vundle and init
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'jeaye/color_coded'
-Plugin 'roxma/nvim-yarp'
-Plugin 'roxma/vim-hug-neovim-rpc'
-" To use in vim8: python3 -m pip install pynvim (roxma/vim-hug-neovim-rpc)
-Plugin 'Shougo/deoplete.nvim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-surround'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'w0rp/ale'
-" cd ~/.vim/bundle/command-t/ruby/command-t/ext/command-t
-" ruby extconf.rb && make clean && make
-Plugin 'wincent/command-t'
-
-call vundle#end()
-filetype plugin indent on
-" ~vundle
 
 syntax on
 "color scheme
 :color desert
 :hi Comment ctermfg=grey
+:hi Folded ctermbg=Blue ctermfg=White
 :hi Search ctermbg=White ctermfg=Red
 
 " set
@@ -54,6 +30,13 @@ set colorcolumn=80
 
 " set spell
 set spell spelllang=en
+
+" Set spellfile to local file if present
+let workman_basic_vimrc_dir = expand('<sfile>:p:h')
+let local_spellfile = workman_basic_vimrc_dir . '/vim-spellfile.en.utf-8.add'
+if filereadable(local_spellfile)
+  let &spellfile = local_spellfile
+endif
 
 " vim search
 set incsearch
@@ -103,7 +86,7 @@ augroup vimrc
   autocmd Filetype go noremap <buffer> <leader>r :vert rightb term go run %<CR>
   autocmd Filetype cpp noremap <buffer> <leader>r :!g++ -g --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
 
-  " Auto mkview and loadview.
+  " Auto mkview and loadview
   autocmd BufWinLeave *
   \ if expand('%') != '' && &buftype !~ 'nofile'
   \|  mkview
@@ -160,6 +143,10 @@ noremap <leader>q :q<CR>
 noremap <leader>s :w<CR>
 noremap <leader><leader>s :wq<CR>
 
+" noremap quickfix
+noremap <C-n> :cn<CR>
+noremap <C-p> :cp<CR>
+
 " noremap buffers
 noremap <expr>b ":<C-U>".nr2char(getchar())."b<CR>"
 noremap bb :ls<CR>
@@ -208,41 +195,6 @@ nnoremap <leader>/ :%s/<c-r><c-w>//ng<cr>
 nnoremap <leader>y "+y
 nnoremap <leader>Y mpgg"+yG`p
 
-" functions
-function! JumpInFile(back, forw)
-  let [n, i] = [bufnr('%'), 1]
-  let p = [n] + getpos('.')[1:]
-  sil! exe 'norm!1' . a:forw
-  while 1
-    let p1 = [bufnr('%')] + getpos('.')[1:]
-    if n == p1[0] | break | endif
-    if p == p1
-      sil! exe 'norm!' . (i-1) . a:back
-      break
-    endif
-    let [p, i] = [p1, i+1]
-    sil! exe 'norm!1' . a:forw
-  endwhile
-endfunction
-nnoremap <silent> <C-i> :call JumpInFile("\<c-i>", "\<c-o>")<cr>
-nnoremap <silent> <C-o> :call JumpInFile("\<c-o>", "\<c-i>")<cr>
-
-" NERDTree
-noremap <leader>1 :NERDTreeToggle<CR>
-noremap <leader><leader>1 :NERDTreeFind<CR>
-let NERDTreeMapOpenExpl = 'd'
-let NERDTreeMapUpdir = 'k'
-let NERDTreeMapUpdirKeepOpen = 'K'
-
-" deoplete
-let g:deoplete#enable_at_startup = 1
-inoremap <expr> <leader> pumvisible() ? "\<C-n>" : "\<leader>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-
 " different cursor shape in different modes
 if exists('$TMUX')
   " changes take effect tmux wide (not confined to the vim pane).
@@ -261,22 +213,3 @@ endif
 if filereadable(expand('~/.custom.vimrc'))
   source ~/.custom.vimrc
 endif
-
-" Netrw
-"let g:netrw_banner = 0
-"let g:netrw_winsize = 25
-"let g:netrw_liststyle = 3
-"let g:netrw_browse_split = 4
-"let g:netrw_altv = 1
-
-"noremap <leader>1 :Lexplore<CR>
-
-"augroup netrw_mapping
-"    autocmd!
-"    autocmd filetype netrw call NetrwMapping()
-"augroup END
-
-"function! NetrwMapping()
-"    noremap <buffer> u k
-"endfunction
-
