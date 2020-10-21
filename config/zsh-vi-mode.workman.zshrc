@@ -41,8 +41,8 @@ PROMPT='$(vi_mode_prompt_info)'$PROMPT
 # workman key bindings
 bindkey -M vicmd "n" vi-backward-char
 bindkey -M vicmd "o" vi-forward-char
-bindkey -M vicmd "r" vi-forward-word-end
-bindkey -M vicmd "R" vi-forward-blank-word-end
+bindkey -M vicmd "h" vi-forward-word-end
+bindkey -M vicmd "H" vi-forward-blank-word-end
 bindkey -M vicmd "q" vi-backward-word
 bindkey -M vicmd "Q" vi-backward-word-end
 bindkey -M vicmd "gq" vi-backward-blank-word-end
@@ -50,8 +50,8 @@ bindkey -M vicmd "0" vi-first-non-blank
 bindkey -M vicmd "^" vi-digit-or-beginning-of-line
 bindkey -M vicmd "l" vi-open-line-below
 bindkey -M vicmd "L" vi-open-line-above
-bindkey -M vicmd "h" vi-replace-chars
-bindkey -M vicmd "H" vi-replace
+bindkey -M vicmd "r" vi-replace-chars
+bindkey -M vicmd "R" vi-replace
 bindkey -M vicmd "k" undo
 bindkey -M vicmd '/' history-incremental-search-backward
 bindkey -M vicmd '?' history-incremental-search-forward

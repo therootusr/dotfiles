@@ -110,15 +110,12 @@ command FormatJSON %!python -m json.tool
 noremap u k
 noremap n h
 noremap e j
-noremap q b
 noremap o l
 noremap l o
 noremap L O
 noremap k u
-noremap r e
-noremap h r
-noremap # q
 noremap 0 ^
+noremap h e
 noremap ^ 0
 noremap ' `
 noremap K <C-r>
@@ -148,18 +145,18 @@ noremap <C-n> :cn<CR>
 noremap <C-p> :cp<CR>
 
 " noremap buffers
-noremap <expr>b ":<C-U>".nr2char(getchar())."b<CR>"
-noremap bb :ls<CR>
-noremap b! :ls!<CR>
-" noremap bd :bp<bar>sp<bar>bn<bar>bd<CR>
-noremap bd :bp<CR>:bd #<CR>
-noremap bu :vert sbprevious<CR>
-noremap bn :bprevious<CR>
-noremap b\ :vert sbnext<CR>
-noremap b- :sbnext<CR>
-noremap bo :bnext<CR>
-noremap bg <C-^>
-noremap bs <C-W>^<C-W>H
+noremap <expr>j ":<C-U>".nr2char(getchar())."b<CR>"
+noremap jb :ls<CR>
+noremap j! :ls!<CR>
+" noremap jd :bp<bar>sp<bar>bn<bar>bd<CR>
+noremap jd :bp<CR>:bd #<CR>
+noremap ju :vert sbprevious<CR>
+noremap jn :bprevious<CR>
+noremap j\ :vert sbnext<CR>
+noremap j- :sbnext<CR>
+noremap jo :bnext<CR>
+noremap jg <C-^>
+noremap js <C-W>^<C-W>H
 
 " noremap windows
 noremap <Leader>w <C-w>
@@ -189,7 +186,7 @@ noremap <leader>a :tabprev<CR>
 " noremap misc
 noremap gp a<C-r>0<ESC>
 noremap <leader>p ciw<C-r>0<ESC>
-inoremap hh <ESC>
+" inoremap hh <ESC>
 nnoremap <leader>/ :%s/<c-r><c-w>//ng<cr>
 " vnoremap <leader>/ :<c-u>%s/<c-r>*//ng<cr>
 nnoremap <leader>y "+y
