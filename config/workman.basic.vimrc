@@ -81,10 +81,15 @@ augroup vimrc
   endfunction
   autocmd BufWritePost *.h,*.hpp,*.cc,*.cpp call FormatCpp()
 
+  " format code noremap
+  " (unlike ":%!clang-format" doesn't add to undo/redo change list)
+  autocmd Filetype cpp noremap <buffer> <leader>f :!clang-format -i --style=file --fallback-style=google %<CR><CR>
+
   " code dispatch noremap; #run
   autocmd Filetype python noremap <buffer> <leader>r :vert rightb term python3 %<CR>
   autocmd Filetype go noremap <buffer> <leader>r :vert rightb term go run %<CR>
-  autocmd Filetype cpp noremap <buffer> <leader>r :!g++ -g --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
+  autocmd Filetype cpp noremap <buffer> <leader>r :!g++ --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
+  autocmd Filetype cpp noremap <buffer> <leader><leader>r :!g++ -g --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
 
   " Auto mkview and loadview
   autocmd BufWinLeave *
@@ -191,6 +196,9 @@ nnoremap <leader>/ :%s/<c-r><c-w>//ng<cr>
 " vnoremap <leader>/ :<c-u>%s/<c-r>*//ng<cr>
 nnoremap <leader>y "+y
 nnoremap <leader>Y mpgg"+yG`p
+
+" macros
+let @p = "a \<Esc>p"
 
 " different cursor shape in different modes
 if exists('$TMUX')

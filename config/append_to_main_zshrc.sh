@@ -22,9 +22,11 @@ fi
 ln -s $HOME/workspace/misc/config/plug.zshrc $HOME/.plug.zshrc
 ln -s $HOME/workspace/misc/config/workman.basic.vimrc $HOME/.basic.vimrc
 ln -s $HOME/workspace/misc/config/zsh-vi-mode.workman.zshrc $HOME/.zsh-vi-mode.workman.zshrc
+ln -s $HOME/workspace/misc/config/zsh-vi-mode.optional.zshrc $HOME/.zsh-vi-mode.optional.zshrc
 ln -s $HOME/workspace/misc/config/workman.basic.vimrc $HOME/.ideavimrc
 ln -s $HOME/workspace/misc/config/workman.vimrc $HOME/.vimrc
 ln -s $HOME/workspace/misc/config/custom.plug.zshrc $HOME/.tmp.zshrc
+ln -s $HOME/workspace/misc/config/tmux.conf $HOME/.tmux.conf
 
 cat << EOT >> $ZSHRC_PATH
 
@@ -54,4 +56,7 @@ if [ -f ~/.zsh-vi-mode.workman.zshrc ]; then
     source ~/.zsh-vi-mode.workman.zshrc
 fi
 
+if [ -f ~/.zsh-vi-mode.optional.zshrc ]; then
+    source ~/.zsh-vi-mode.optional.zshrc
+fi
 EOT
