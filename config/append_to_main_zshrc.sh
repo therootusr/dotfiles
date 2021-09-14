@@ -21,6 +21,7 @@ fi
 # Create symlinks
 ln -s $HOME/workspace/misc/config/plug.zshrc $HOME/.plug.zshrc
 ln -s $HOME/workspace/misc/config/workman.basic.vimrc $HOME/.basic.vimrc
+ln -s $HOME/workspace/misc/config/workman.map.vimrc $HOME/.map.vimrc
 ln -s $HOME/workspace/misc/config/zsh-vi-mode.workman.zshrc $HOME/.zsh-vi-mode.workman.zshrc
 ln -s $HOME/workspace/misc/config/zsh-vi-mode.optional.zshrc $HOME/.zsh-vi-mode.optional.zshrc
 ln -s $HOME/workspace/misc/config/workman.basic.vimrc $HOME/.ideavimrc

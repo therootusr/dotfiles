@@ -18,8 +18,8 @@ bindkey -M vicmd "Q" vi-backward-word-end
 bindkey -M vicmd "gq" vi-backward-blank-word-end
 bindkey -M vicmd "0" vi-first-non-blank
 bindkey -M vicmd "^" vi-digit-or-beginning-of-line
-bindkey -M vicmd "l" vi-open-line-below
-bindkey -M vicmd "L" vi-open-line-above
+bindkey -M vicmd "N" vi-open-line-below
+bindkey -M vicmd "O" vi-open-line-above
 bindkey -M vicmd "r" vi-replace-chars
 bindkey -M vicmd "R" vi-replace
 bindkey -M vicmd "k" undo
@@ -27,6 +27,8 @@ bindkey -M vicmd '/' history-incremental-search-backward
 bindkey -M vicmd '?' history-incremental-search-forward
 bindkey -M vicmd "u" up-line-or-beginning-search
 bindkey -M vicmd "e" down-line-or-beginning-search
+bindkey -M vicmd "h" vi-find-next-char
+bindkey -M vicmd "H" vi-find-prev-char
 
 bindkey "^[OA" up-line-or-beginning-search
 bindkey "^[OB" down-line-or-beginning-search

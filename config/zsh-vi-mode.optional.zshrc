@@ -16,10 +16,11 @@ export KEYTIMEOUT=1
 
 # if mode indicator wasn't setup by theme, define default
 # Work around possible set -o nounset
-mode=${MODE_INDICATOR:-}
-if [[ "$mode" == "" ]]; then
-  MODE_INDICATOR="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
-fi
+# update: comes from p10k
+## mode=${MODE_INDICATOR:-}
+## if [[ "$mode" == "" ]]; then
+  ## MODE_INDICATOR="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+## fi
 
 function vi_mode_prompt_info() {
   echo "${${VI_KEYMAP/vicmd/$MODE_INDICATOR}/(main|viins)/}"
