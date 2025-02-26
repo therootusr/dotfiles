@@ -18,28 +18,38 @@ if [ $? == 0 ]; then
 fi
 
 # Create symlinks
-CONF_DIR="$HOME/workspace/misc/config/"
+CONF_DIR="$HOME/workspace/misc/config"
 DOTFILE_DIR="$HOME/.dotfiles"
 mkdir -v $DOTFILE_DIR
 
-ln -vs $CONF_DIR/one_include.zshrc $DOTFILE_DIR/.one_include.zshrc
-ln -vs $CONF_DIR/plug.zshrc $DOTFILE_DIR/.plug.zshrc
-ln -vs $CONF_DIR/workman.basic.vimrc $DOTFILE_DIR/.basic.vimrc
+ln -vs $CONF_DIR/one_include.commonrc $DOTFILE_DIR/.one_include.commonrc
+
+ln -vs $CONF_DIR/aliases.commonrc $DOTFILE_DIR/.aliases
+ln -vs $CONF_DIR/functions.commonrc $DOTFILE_DIR/.functions
+ln -vs $CONF_DIR/settings.commonrc $DOTFILE_DIR/.settings.commonrc
+
 ln -vs $CONF_DIR/workman.map.vimrc $DOTFILE_DIR/.map.vimrc
-ln -vs $CONF_DIR/zsh-vi-mode.workman.zshrc $DOTFILE_DIR/.zsh-vi-mode.workman.zshrc
+ln -vs $CONF_DIR/workman.basic.vimrc $DOTFILE_DIR/.basic.vimrc
 ln -vs $CONF_DIR/workman.basic.vimrc $DOTFILE_DIR/.ideavimrc
-ln -vs $CONF_DIR/custom.plug.zshrc $DOTFILE_DIR/.tmp.zshrc
-ln -vs $CONF_DIR/tmux.conf $DOTFILE_DIR/.tmux.conf
-# ln -vs $CONF_DIR/zsh-vi-mode.optional.zshrc $DOTFILE_DIR/.zsh-vi-mode.optional.zshrc
-# ln -vs $CONF_DIR/workman.vimrc $HOME/.vimrc
 ln -vs $CONF_DIR/workman.basic.vimrc $HOME/.vimrc
+# ln -vs $CONF_DIR/workman.vimrc $HOME/.vimrc
+
+ln -vs $CONF_DIR/zsh-vi-mode.workman.zshrc $DOTFILE_DIR/.zsh-vi-mode.workman.zshrc
+# ln -vs $CONF_DIR/zsh-vi-mode.optional.zshrc $DOTFILE_DIR/.zsh-vi-mode.optional.zshrc
+
+ln -vs $CONF_DIR/tmux.conf $HOME/.tmux.conf
+
+# ln -vs $CONF_DIR/warp.settings.commonrc $DOTFILE_DIR/.warp.settings.commonrc
+
+ln -vs $CONF_DIR/custom.plug.zshrc $DOTFILE_DIR/.tmp.zshrc
 
 echo "Saving existing zshrc"
 cp -v $ZSHRC_PATH $ZSHRC_PATH.before_append_to_main_zshrc.old
 
 cat << EOT >> $ZSHRC_PATH
+
 # Following 4 lines have been added by an external script.
 # idempotent_append_to_main_zshrc.sh
 
-[ ! -f ~/.dotfiles/.one_include.zshrc ] || source ~/.dotfiles/.one_include.zshrc
+[ ! -f ~/.dotfiles/.one_include.commonrc ] || source ~/.dotfiles/.one_include.commonrc
 EOT

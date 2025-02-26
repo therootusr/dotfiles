@@ -1,0 +1,237 @@
+alias c='pbcopy'
+alias ca='gcalcli agenda today tomorrow'
+alias cal='gcalcli'
+alias p='pbpaste'
+alias cdb='cd ~/workspace/misc/bin'
+alias cdc='cd ~/workspace/misc/config'
+#alias cdg='cd ~/workspace/goal'
+alias cdp='cd ~/workspace/playground'
+alias cds='cd ~/workspace/misc/scripts'
+alias cdt='cd ~/workspace/tmp'
+alias clf='clang-format --style=file --fallback-style=google'
+
+alias elw='elinks --dump-width 1000'
+
+alias gbvv='git branch -vv'
+alias gg='git grep'
+alias gs='git status'
+alias glon='glo --numstat'
+alias glgu='glg @{upstream}'
+alias glgf='glg --format=fuller'
+alias glodf='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(yellow)(%cd) %C(bold blue)<%an>%Creset"'
+alias gdcaw='git diff --cached --word-diff'
+alias gdu='git diff @{upstream}'
+alias gduw='git diff @{upstream} --word-diff'
+alias gfzf="git ls-files | fzf -m"
+alias glsf="git ls-files"
+alias glst="git ls-tree"
+alias grbom='git rebase origin/master'
+alias grbu='git rebase @{upstream}'
+alias grhhh='git reset --hard HEAD~'
+alias grhhu='git reset --hard @{upstream}'
+alias grp='git rev-parse'
+alias grph='git rev-parse HEAD'
+alias gv='vim -u ~/.basic.vimrc `git ls-files | fzf -m`'
+alias gvi='vim `git ls-files | fzf -m`'
+alias gw='git worktree'
+alias gcd='cd "$(git rev-parse --show-toplevel)"'
+alias gfp='git format-patch'
+
+alias l='ls -Ahlrt'
+
+# use symlinks instead
+alias python=python3
+
+alias tfo="terraform"
+
+# ----------------------------------------------------------------------------------------------------
+# docker
+# ----------------------------------------------------------------------------------------------------
+# using omz-plugin: docker; aliases don't feel very comprehensive
+alias dk='docker'
+# docker ps outdated; docker container ls = docker ps
+# alias dkps='docker ps'
+# alias dkpsa='docker ps -a'
+
+alias db='docker build'
+
+# builder appears to to be a synonym for buildx
+# alias dkbld='docker builder'
+
+alias dbx='docker buildx'
+alias dbxpru='docker buildx prune'
+alias dbxprua='docker buildx prune -a'
+
+alias dctx='docker context'
+
+alias dc="docker container"
+alias dca="docker container attach"
+alias dci="docker container inspect"
+alias dcls="docker container ls"
+alias dclsa="docker container ls -a"
+alias dcpru="docker container prune"
+alias dcr="docker container run"
+alias dcrrm="docker container run --rm"
+alias dcrit="docker container run -it"
+alias dcritrm="docker container run -it --rm"
+alias dcrm="docker container rm"
+alias dcrmfv="docker container rm -f -v"
+alias dcx="docker container exec"
+alias dcxit="docker container exec -it"
+alias dclogs="docker container logs"
+alias dcrst="docker container restart"
+alias dcst="docker container start"
+alias dcstp="docker container stop"
+alias dcstpf="docker container stop -s SIGKILL"
+alias dcstpa="docker stop \$(docker ps -q)"
+alias dctop="docker top"
+
+alias di="docker image"
+alias dib="docker image build"
+alias dii="docker image inspect"
+alias dils="docker image list"
+alias dilsa="docker image list -a"
+alias dipush="docker image push"
+alias dirm="docker image rm"
+alias dit="docker image tag"
+alias dipull="docker image pull"
+alias dipru="docker image prune"
+alias diprua="docker image prune -a"
+
+alias dn="docker network"
+alias dnc="docker network create"
+alias dnco="docker network connect"
+alias dncdcn="docker network disconnect"
+alias dni="docker network inspect"
+alias dnls="docker network ls"
+alias dnrm="docker network rm"
+
+
+alias dv="docker volume"
+alias dvi="docker volume inspect"
+alias dvls="docker volume ls"
+alias dvrm="docker volume rm"
+alias dvpru="docker volume prune"
+alias dvprua="docker volume prune -a"
+
+alias f_dcup='f_dc up'
+alias f_dcps='f_dc ps'
+# alias da='docker attach'
+# alias dinfo='docker info'
+# alias dstats='docker stats'
+
+# docker compose
+
+alias dkc='docker compose'
+alias dkcb="docker compose build"
+alias dkcup='docker compose up'
+alias dkcupb='docker compose up --build'
+alias dkcupbf='docker compose up --build --force-recreate'
+alias dkcd="docker compose down"
+alias dkcdv="docker compose down -v"
+alias dkcda="docker compose down -v --rmi all"
+alias dkcim="docker compose images"
+alias dkcps='docker compose ps'
+alias dkcpsa='docker compose ps -a'
+alias dkcr="docker compose run"
+alias dkclogs="docker compose logs"
+alias dkcls="docker compose ls"
+alias dkcst="docker compose start"
+alias dkcstp="docker compose stop"
+
+# ----------------------------------------------------------------------------------------------------
+# Kubernetes
+# ----------------------------------------------------------------------------------------------------
+
+alias kd="kubectl describe"
+alias kdsc="kubectl describe sc"
+
+alias kgnsa="kubectl get -A"
+
+alias kg="kubectl get"
+alias kga="kubectl get all,pvc,sa"
+alias kgaaa="kubectl get all,pvc,sa --all-namespaces"
+alias kgaa="kubectl get -A"
+alias kgw="kubectl get -o wide"
+alias kgaw="kubectl get all,pvc,sa -o wide"
+
+alias kgpwa="kubectl get pod --watch"
+alias kgpow="kubectl get pod -o wide"
+alias kgpowa="kubectl get pod -o wide --watch"
+
+alias kgnow="kubectl get nodes -o wide"
+alias kgnowa="kubectl get nodes -o wide --watch"
+alias kgsc="kubectl get sc"
+
+alias kgpv="kubectl get pv"
+alias kdpv='kubectl describe pv'
+
+alias kdg="kubectl debug"
+alias kdgit="kubectl debug -it"
+
+alias kr="kubectl run"
+alias krit="kubectl run -it"
+alias kritrm="kubectl run -it --rm"
+
+alias kcg="kubectl config view --minify"
+alias kcgns="kubectl config view --minify -o jsonpath='{..namespace}'"
+alias kpa="kubectl patch"
+
+alias kval="kubeconform --strict --summary"
+
+alias kgrbac="kubectl get sa,role,rolebindings -o wide"
+alias kgrbaca="kubectl get -A sa,role,rolebindings"
+
+# ----------------------------------------------------------------------------------------------------
+# helm
+# ----------------------------------------------------------------------------------------------------
+
+alias h="helm"
+alias hin='helm install'
+alias hins='helm install --namespace'
+alias hinsc='helm install --create-namespace --namespace'
+alias hse='helm search'
+alias hun='helm uninstall'
+alias huns='helm uninstall --namespace'
+alias hup='helm upgrade'
+alias hupa='helm upgrade --atomic'
+alias hupac='helm upgrade --atomic --cleanup-on-fail'
+alias hlin='helm lint'
+alias hls='helm ls'
+alias hlsa='helm ls -a'
+alias hlsaa='helm ls -A'
+alias ht='helm template'
+alias hpac='helm package'
+alias hreg='helm registry'
+alias hrelo='helm registry login'
+
+alias hrep='helm repo'
+alias hrls='helm repo ls'
+
+alias hh='helm history'
+
+# ----------------------------------------------------------------------------------------------------
+
+alias mv='mv -v'
+alias cp='cp -v'
+alias rm='rm -v'
+
+alias ssh='ssh -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
+alias sshu='ssh -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
+
+alias t='tmux'
+alias ta='tmux a'
+alias tls='tmux ls'
+alias tks='tmux kill-server'
+# Tree colored output MAC.
+alias tree='tree -C'
+
+alias v="vim -u ~/.dotfiles/.basic.vimrc"
+alias vz='vim `fzf -m`'
+
+alias vi='vim -u `mktemp`'
+
+alias gpg='gpg --no-symkey-cache'
+
+alias gcf='f_git_staged_clang_format'
+alias gcfa='f_git_staged_clang_format_all'

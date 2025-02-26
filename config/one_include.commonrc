@@ -11,9 +11,16 @@
 
 [ ! -f ~/.dotfiles/.fzf.zsh ] || source ~/.dotfiles/.fzf.zsh
 
-[ ! -f ~/.dotfiles/.plug.zshrc ] || source ~/.dotfiles/.plug.zshrc
+[ ! -f ~/.dotfiles/.aliases ] || source ~/.dotfiles/.aliases
 
-[ ! -f ~/.dotfiles/.tmp.zshrc ] || source ~/.dotfiles/.tmp.zshrc
+[ ! -f ~/.dotfiles/.functions ] || source ~/.dotfiles/.functions
+
+[ ! -f ~/.dotfiles/.settings.commonrc ] || source ~/.dotfiles/.settings.commonrc
+
+# Warp is not in use
+# [ ! -f ~/.dotfiles/.warp.settings.commonrc ] || source ~/.dotfiles/.warp.settings.commonrc
+
+[ ! -f ~/.dotfiles/.external.commonrc ] || source ~/.dotfiles/.external.commonrc
 
 [ ! -f ~/.dotfiles/.zsh-vi-mode.workman.zshrc ] || source ~/.dotfiles/.zsh-vi-mode.workman.zshrc
 

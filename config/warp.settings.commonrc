@@ -1,0 +1,12 @@
+# warp complains with set -o nounset otherwise
+# It still complains about RPROMPT; dunno why
+set +o nounset
+export _WARP_GENERATOR_COMMAND=
+export INSIDE_EMACS=
+export vi_mode_in_opts=
+export EDITOR=
+export VISUAL=
+export VIRTUAL_ENV=
+export CONDA_DEFAULT_ENV=
+export KUBECONFIG=
+export RPROMPT=
