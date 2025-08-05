@@ -262,3 +262,13 @@ function f_git_staged_clang_format_all {
     f_git_staged_clang_format $changed_file
   done
 }
+
+# ws: whitespace
+function ws_trim {
+  sed -i '' -e 's/^[[:space:]]*$//g' -e 's/[[:space:]]*$//g' $1
+}
+
+# prints max mem used in kb
+function xtime {
+  /usr/bin/time -f '%Uu %Ss %er %MkB %C' "$@"
+}
