@@ -4,7 +4,8 @@
 
 # tmp to allow "set -o nounset"
 KONSOLE_VERSION=""
-set -o nounset
+# Set as zsh hook; otherwise certain stuff can misbehave (zsh theme / warp)
+# set -o nounset
 
 export LESS=-MiRW
 export LC_ALL=en_US.UTF-8
@@ -28,3 +29,12 @@ setopt extended_history
 # add history immediately after typing a command
 setopt inc_append_history
 
+function _enable_nounset_after_init() {
+  set -o nounset
+  # Remove function so it only runs once
+  unset -f _enable_nounset_after_init
+}
+
+# Add to preexec_functions - runs before first command executes; remains set
+# forever post that
+preexec_functions+=(_enable_nounset_after_init)

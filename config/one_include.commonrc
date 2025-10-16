@@ -18,7 +18,7 @@
 [ ! -f ~/.dotfiles/.settings.commonrc ] || source ~/.dotfiles/.settings.commonrc
 
 # Warp is not in use
-# [ ! -f ~/.dotfiles/.warp.settings.commonrc ] || source ~/.dotfiles/.warp.settings.commonrc
+[ ! -f ~/.dotfiles/.warp.settings.commonrc ] || source ~/.dotfiles/.warp.settings.commonrc
 
 [ ! -f ~/.dotfiles/.external.commonrc ] || source ~/.dotfiles/.external.commonrc
 
