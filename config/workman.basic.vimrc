@@ -67,9 +67,10 @@ let mapleader="\<tab>"
 " Source mappings now!
 " Newer ideavim versions (not versions until v0.64 at least) are unable
 " to source files apparently and thus, won't be able to inherit
-" mappings via sourcing ".map.vimrc" below.
-if filereadable(expand('~/.dotfiles/.map.vimrc'))
-  source ~/.dotfiles/.map.vimrc
+" mappings via sourcing "workman.map.vimrc" below.
+let workman_basic_vimrc_dir = expand('<sfile>:p:h')
+if filereadable(workman_basic_vimrc_dir . '/workman.map.vimrc')
+  execute 'source ' . workman_basic_vimrc_dir . '/workman.map.vimrc'
 endif
 
 augroup vimrc

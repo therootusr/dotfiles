@@ -9,19 +9,18 @@
 # TODO: automate
 # zshrc plugins: plugins=(git docker)
 
-[ ! -f ~/.dotfiles/.fzf.zsh ] || source ~/.dotfiles/.fzf.zsh
+export MY_DOTFILES_DIR="$(dirname "$(realpath "${0}")")"
 
-[ ! -f ~/.dotfiles/.aliases ] || source ~/.dotfiles/.aliases
+[ ! -f $MY_DOTFILES_DIR/settings.commonrc ] || source $MY_DOTFILES_DIR/settings.commonrc
 
-[ ! -f ~/.dotfiles/.functions ] || source ~/.dotfiles/.functions
+[ ! -f $MY_DOTFILES_DIR/aliases.commonrc ] || source $MY_DOTFILES_DIR/aliases.commonrc
 
-[ ! -f ~/.dotfiles/.settings.commonrc ] || source ~/.dotfiles/.settings.commonrc
+[ ! -f $MY_DOTFILES_DIR/functions.commonrc ] || source $MY_DOTFILES_DIR/functions.commonrc
 
-# Warp is not in use
-[ ! -f ~/.dotfiles/.warp.settings.commonrc ] || source ~/.dotfiles/.warp.settings.commonrc
+[ ! -f $MY_DOTFILES_DIR/warp.settings.commonrc ] || source $MY_DOTFILES_DIR/warp.settings.commonrc
 
-[ ! -f ~/.dotfiles/.external.commonrc ] || source ~/.dotfiles/.external.commonrc
+[ ! -f $MY_DOTFILES_DIR/zsh-vi-mode.workman.zshrc ] || source $MY_DOTFILES_DIR/zsh-vi-mode.workman.zshrc
 
-[ ! -f ~/.dotfiles/.zsh-vi-mode.workman.zshrc ] || source ~/.dotfiles/.zsh-vi-mode.workman.zshrc
+# [ ! -f $MY_DOTFILES_DIR/zsh-vi-mode.optional.zshrc ] || source $MY_DOTFILES_DIR/zsh-vi-mode.optional.zshrc
 
-[ ! -f ~/.dotfiles/.zsh-vi-mode.optional.zshrc ] || source ~/.dotfiles/.zsh-vi-mode.optional.zshrc
+# [ ! -f $MY_DOTFILES_DIR/.fzf.zsh ] || source $MY_DOTFILES_DIR/.fzf.zsh

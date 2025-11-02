@@ -1,12 +1,11 @@
+# MY_DOTFILES_DIR is being exported by one_include.commonrc
+
 alias c='pbcopy'
 alias ca='gcalcli agenda today tomorrow'
 alias cal='gcalcli'
 alias p='pbpaste'
-alias cdb='cd ~/workspace/misc/bin'
-alias cdc='cd ~/workspace/misc/config'
-#alias cdg='cd ~/workspace/goal'
+alias cdc='cd $MY_DOTFILES_DIR'
 alias cdp='cd ~/workspace/playground'
-alias cds='cd ~/workspace/misc/scripts'
 alias cdt='cd ~/workspace/tmp'
 alias clf='clang-format --style=file --fallback-style=google'
 
@@ -31,7 +30,7 @@ alias grhhh='git reset --hard HEAD~'
 alias grhhu='git reset --hard @{upstream}'
 alias grp='git rev-parse'
 alias grph='git rev-parse HEAD'
-alias gv='vim -u ~/.basic.vimrc `git ls-files | fzf -m`'
+alias gv='vim -u $MY_DOTFILES_DIR/workman.basic.vimrc `git ls-files | fzf -m`'
 alias gvi='vim `git ls-files | fzf -m`'
 alias gw='git worktree'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
@@ -226,7 +225,7 @@ alias tks='tmux kill-server'
 # Tree colored output MAC.
 alias tree='tree -C'
 
-alias v="vim -u ~/.dotfiles/.basic.vimrc"
+alias v="vim -u $MY_DOTFILES_DIR/workman.basic.vimrc"
 alias vz='vim `fzf -m`'
 
 alias vi='vim -u `mktemp`'
