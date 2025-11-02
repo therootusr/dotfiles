@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 ZSHRC_PATH=${HOME}/.zshrc
 
 IDEMPOTENTIFY_MARK="dotfiles_idempotent_append_to_main_zshrc.sh"
@@ -9,11 +11,15 @@ if [ ! -f $ZSHRC_PATH ]; then
   exit 1
 fi
 
-grep_mark_res=`grep --line-number --fixed-strings $IDEMPOTENTIFY_MARK $ZSHRC_PATH`
-if [ $? == 0 ]; then
+set +e
+grep_mark_res=$(grep --line-number --fixed-strings "$IDEMPOTENTIFY_MARK" "$ZSHRC_PATH")
+grep_exit_code=$?
+set -e
+
+if [ $grep_exit_code -eq 0 ]; then
   zshrc_line_num="${ZSHRC_PATH}:$(echo $grep_mark_res | cut -d ':' -f 1)"
   echo "FATAL: '$ZSHRC_PATH' has already been modified" \
-       "by this script (Remove line $zshrc_line_num to force)."
+       "by this script: $0 (remove line $zshrc_line_num to force)."
   exit 0
 fi
 
@@ -27,8 +33,14 @@ SRC_DOTFILES_DIR=$(dirname "$(realpath "$0")")
 # Shadow tmux cmd using a tmux alias that sources $SRC_DOTFILES_DIR/tmux.conf
 # ln -vs $SRC_DOTFILES_DIR/tmux.conf $HOME/.tmux.conf
 
-echo "Saving existing zshrc"
+echo "INFO: updating the global git config"
+git config --global core.editor "vim -u $SRC_DOTFILES_DIR/workman.basic.vimrc -c 'set nomodeline'"
+git config --global receive.denyCurrentBranch updateInstead
+
+echo "INFO: saving existing zshrc"
 cp -v $ZSHRC_PATH $ZSHRC_PATH.before.$IDEMPOTENTIFY_MARK.zshrc
+
+echo "INFO: updating zshrc"
 
 cat << EOT >> $ZSHRC_PATH
 
