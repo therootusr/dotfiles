@@ -1,5 +1,7 @@
 # MY_DOTFILES_DIR is being exported by one_include.commonrc
 
+alias cdot='cd $MY_DOTFILES_DIR'
+
 alias c='pbcopy'
 alias ca='gcalcli agenda today tomorrow'
 alias cal='gcalcli'
@@ -215,8 +217,7 @@ alias mv='mv -v'
 alias cp='cp -v'
 alias rm='rm -v'
 
-alias ssh='ssh -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
-alias sshu='ssh -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
+alias ssh='ssh -F $MY_DOTFILES_DIR/ssh_config -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
 
 alias t='tmux'
 alias ta='tmux a'

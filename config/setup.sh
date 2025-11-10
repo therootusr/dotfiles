@@ -24,7 +24,9 @@ if [ $grep_exit_code -eq 0 ]; then
 fi
 
 # Create symlinks
-SRC_DOTFILES_DIR=$(dirname "$(realpath "$0")")
+THIS_SCRIPT_PATH=$(realpath $0)
+SRC_DOTFILES_DIR=$(dirname "$THIS_SCRIPT_PATH")
+
 # TGT_DOTFILE_DIR="$HOME/.dotfiles"
 # mkdir -v $TGT_DOTFILE_DIR
 
@@ -32,6 +34,9 @@ SRC_DOTFILES_DIR=$(dirname "$(realpath "$0")")
 # ln -vs $SRC_DOTFILES_DIR/workman.vimrc $HOME/.vimrc
 # Shadow tmux cmd using a tmux alias that sources $SRC_DOTFILES_DIR/tmux.conf
 # ln -vs $SRC_DOTFILES_DIR/tmux.conf $HOME/.tmux.conf
+
+echo "INFO: creating '~/.ssh/cm_socket' if it doesn't exist"
+mkdir -p ~/.ssh/cm_socket
 
 echo "INFO: updating the global git config"
 git config --global core.editor "vim -u $SRC_DOTFILES_DIR/workman.basic.vimrc -c 'set nomodeline'"
@@ -45,7 +50,8 @@ echo "INFO: updating zshrc"
 cat << EOT >> $ZSHRC_PATH
 
 # Following 4 lines have been added by an external script.
-# $IDEMPOTENTIFY_MARK
+# SCRIPT: $THIS_SCRIPT_PATH
+# IDEMPOTENTIFY_MARK: $IDEMPOTENTIFY_MARK
 
 [ ! -f $SRC_DOTFILES_DIR/one_include.commonrc ] || source $SRC_DOTFILES_DIR/one_include.commonrc
 EOT
