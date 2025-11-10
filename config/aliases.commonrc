@@ -38,6 +38,8 @@ alias gw='git worktree'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias gfp='git format-patch'
 
+alias git_reset_author='git rebase -r --root --exec '\''author_date="$(git log -1 HEAD --pretty=format:"%aI")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'\'''
+
 alias l='ls -Ahlrt'
 
 # use symlinks instead
