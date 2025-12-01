@@ -237,3 +237,6 @@ alias gpg='gpg --no-symkey-cache'
 
 alias gcf='f_git_staged_clang_format'
 alias gcfa='f_git_staged_clang_format_all'
+
+alias validate_mounts='findmnt --verify --verbose'
+alias check_sudo_privs='sudo -llll -U'

@@ -272,3 +272,15 @@ function ws_trim {
 function xtime {
   /usr/bin/time -f '%Uu %Ss %er %MkB %C' "$@"
 }
+
+function test_block_dev_perf {
+  local block_dev=$1
+  # sync # exec `sync`?
+  hdparm -t $block_dev
+}
+
+# what about checking fs metadata perf?
+function test_disk_perf {
+  local fio_filepath=$1
+  fio --name=randrw4k --rw=randrw --bs=4k --iodepth=32 --size=2G --runtime=30 --time_based --ioengine=io_uring --direct=1 --filename=$fio_filepath --group_reporting
+}
