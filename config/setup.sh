@@ -39,8 +39,10 @@ echo "INFO: creating '~/.ssh/cm_socket' if it doesn't exist"
 mkdir -p ~/.ssh/cm_socket
 
 echo "INFO: updating the global git config"
+cp -v ~/.gitconfig ~/.gitconfig.backup.$IDEMPOTENTIFY_MARK.$(date +%s)
 git config --global core.editor "vim -u $SRC_DOTFILES_DIR/workman.basic.vimrc -c 'set nomodeline'"
 git config --global receive.denyCurrentBranch updateInstead
+git config --global core.sshCommand "ssh -F $SRC_DOTFILES_DIR/ssh_config"
 
 echo "INFO: saving existing zshrc"
 cp -v $ZSHRC_PATH $ZSHRC_PATH.before.$IDEMPOTENTIFY_MARK.zshrc
