@@ -31,10 +31,12 @@ setopt inc_append_history
 
 function _enable_nounset_after_init() {
   set -o nounset
-  # Remove function so it only runs once
-  unset -f _enable_nounset_after_init
 }
 
-# Add to preexec_functions - runs before first command executes; remains set
-# forever post that
 preexec_functions+=(_enable_nounset_after_init)
+
+function _disable_nounset_precmd() {
+  set +o nounset
+}
+
+precmd_functions+=(_disable_nounset_precmd)
