@@ -256,3 +256,41 @@ alias hrep='helm repo'
 alias hrls='helm repo ls'
 
 alias hh='helm history'
+
+# ---------------------------------------------------------------------------
+# Jira: jira-cli: https://github.com/ankitpokhrel/jira-cli
+# ---------------------------------------------------------------------------
+# $ export JIRA_API_TOKEN
+# $ jira init
+# ---------------------------------------------------------------------------
+alias ti='jira'
+alias tip='jira --plain'
+
+# Navigation
+alias tio='jira open'
+alias tipl='jira project list'
+alias tibl='jira board list'
+
+# Issues
+alias tii='jira issue'
+alias tic='jira issue create'
+alias ticb='jira issue create -tBug'
+alias tics='jira issue create -tStory'
+alias til='jira issue list'
+alias tim='jira issue list -a$(jira me)'
+alias tic='jira issue create'
+alias tied='jira issue edit'
+alias tiv='jira issue view'
+alias tia='jira issue assign'
+
+# Sprints
+alias tis='jira sprint'
+alias tisl='jira sprint list'
+alias tisc='jira sprint list --current'
+
+# Epics
+alias tie='jira epic'
+alias tiel='jira epic list -RUnresolved'
+alias tiela='jira epic list'
+alias tiem='jira epic list -RUnresolved -a $(jira me)'
+alias tiema='jira epic list -a $(jira me)'
