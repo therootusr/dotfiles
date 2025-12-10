@@ -1,18 +1,44 @@
 # MY_DOTFILES_DIR is being exported by one_include.commonrc
 
+# ---------------------------------------------------------------------------
+# General / Navigation / Files
+# ---------------------------------------------------------------------------
 alias cdot='cd $MY_DOTFILES_DIR'
-
-alias c='pbcopy'
-alias ca='gcalcli agenda today tomorrow'
-alias cal='gcalcli'
-alias p='pbpaste'
 alias cdc='cd $MY_DOTFILES_DIR'
 alias cdp='cd ~/workspace/playground'
 alias cdt='cd ~/workspace/tmp'
-alias clf='clang-format --style=file --fallback-style=google'
+alias gcd='cd "$(git rev-parse --show-toplevel)"'
+alias l='ls -Ahlrt'
+alias mv='mv -v'
+alias cp='cp -v'
+alias rm='rm -v'
+# Tree colored output MAC.
+alias tree='tree -C'
 
-alias elw='elinks --dump-width 1000'
+# ---------------------------------------------------------------------------
+# Clipboard
+# ---------------------------------------------------------------------------
+alias c='pbcopy'
+alias p='pbpaste'
 
+# ---------------------------------------------------------------------------
+# Calendar
+# ---------------------------------------------------------------------------
+alias ca='gcalcli agenda today tomorrow'
+alias cal='gcalcli'
+
+# ---------------------------------------------------------------------------
+# Editors: vim
+# ---------------------------------------------------------------------------
+alias v="vim -u $MY_DOTFILES_DIR/workman.basic.vimrc"
+alias gv='vim -u $MY_DOTFILES_DIR/workman.basic.vimrc `git ls-files | fzf -m`'
+alias gvi='vim `git ls-files | fzf -m`'
+alias vz='vim `fzf -m`'
+alias vi='vim -u `mktemp`'
+
+# ---------------------------------------------------------------------------
+# Git
+# ---------------------------------------------------------------------------
 alias gbvv='git branch -vv'
 alias gg='git grep'
 alias gs='git status'
@@ -32,24 +58,44 @@ alias grhhh='git reset --hard HEAD~'
 alias grhhu='git reset --hard @{upstream}'
 alias grp='git rev-parse'
 alias grph='git rev-parse HEAD'
-alias gv='vim -u $MY_DOTFILES_DIR/workman.basic.vimrc `git ls-files | fzf -m`'
-alias gvi='vim `git ls-files | fzf -m`'
 alias gw='git worktree'
-alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias gfp='git format-patch'
-
 alias git_reset_author='git rebase -r --root --exec '\''author_date="$(git log -1 HEAD --pretty=format:"%aI")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'\'''
 
-alias l='ls -Ahlrt'
-
+# ---------------------------------------------------------------------------
+# Tools + Languages
+# ---------------------------------------------------------------------------
 # use symlinks instead
 alias python=python3
-
 alias tfo="terraform"
+alias gpg='gpg --no-symkey-cache'
+alias clf='clang-format --style=file --fallback-style=google'
+alias gcf='f_git_staged_clang_format'
+alias gcfa='f_git_staged_clang_format_all'
+alias elw='elinks --dump-width 1000'
 
-# ----------------------------------------------------------------------------------------------------
-# docker
-# ----------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Network + Remote
+# ---------------------------------------------------------------------------
+alias ssh='ssh -F $MY_DOTFILES_DIR/ssh_config -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
+
+# ---------------------------------------------------------------------------
+# Tmux
+# ---------------------------------------------------------------------------
+alias t='tmux'
+alias ta='tmux a'
+alias tls='tmux ls'
+alias tks='tmux kill-server'
+
+# ---------------------------------------------------------------------------
+# System + Admin
+# ---------------------------------------------------------------------------
+alias validate_mounts='findmnt --verify --verbose'
+alias check_sudo_privs='sudo -llll -U'
+
+# ---------------------------------------------------------------------------
+# Docker
+# ---------------------------------------------------------------------------
 # using omz-plugin: docker; aliases don't feel very comprehensive
 alias dk='docker'
 # docker ps outdated; docker container ls = docker ps
@@ -109,7 +155,6 @@ alias dni="docker network inspect"
 alias dnls="docker network ls"
 alias dnrm="docker network rm"
 
-
 alias dv="docker volume"
 alias dvi="docker volume inspect"
 alias dvls="docker volume ls"
@@ -123,8 +168,9 @@ alias f_dcps='f_dc ps'
 # alias dinfo='docker info'
 # alias dstats='docker stats'
 
-# docker compose
-
+# ---------------------------------------------------------------------------
+# Docker Compose
+# ---------------------------------------------------------------------------
 alias dkc='docker compose'
 alias dkcb="docker compose build"
 alias dkcup='docker compose up'
@@ -142,10 +188,9 @@ alias dkcls="docker compose ls"
 alias dkcst="docker compose start"
 alias dkcstp="docker compose stop"
 
-# ----------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # Kubernetes
-# ----------------------------------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------
 alias kd="kubectl describe"
 alias kdsc="kubectl describe sc"
 
@@ -185,10 +230,9 @@ alias kval="kubeconform --strict --summary"
 alias kgrbac="kubectl get sa,role,rolebindings -o wide"
 alias kgrbaca="kubectl get -A sa,role,rolebindings"
 
-# ----------------------------------------------------------------------------------------------------
-# helm
-# ----------------------------------------------------------------------------------------------------
-
+# ---------------------------------------------------------------------------
+# Helm
+# ---------------------------------------------------------------------------
 alias h="helm"
 alias hin='helm install'
 alias hins='helm install --namespace'
@@ -212,31 +256,3 @@ alias hrep='helm repo'
 alias hrls='helm repo ls'
 
 alias hh='helm history'
-
-# ----------------------------------------------------------------------------------------------------
-
-alias mv='mv -v'
-alias cp='cp -v'
-alias rm='rm -v'
-
-alias ssh='ssh -F $MY_DOTFILES_DIR/ssh_config -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
-
-alias t='tmux'
-alias ta='tmux a'
-alias tls='tmux ls'
-alias tks='tmux kill-server'
-# Tree colored output MAC.
-alias tree='tree -C'
-
-alias v="vim -u $MY_DOTFILES_DIR/workman.basic.vimrc"
-alias vz='vim `fzf -m`'
-
-alias vi='vim -u `mktemp`'
-
-alias gpg='gpg --no-symkey-cache'
-
-alias gcf='f_git_staged_clang_format'
-alias gcfa='f_git_staged_clang_format_all'
-
-alias validate_mounts='findmnt --verify --verbose'
-alias check_sudo_privs='sudo -llll -U'
