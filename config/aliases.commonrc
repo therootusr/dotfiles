@@ -258,8 +258,7 @@ alias hupa='helm upgrade --atomic'
 alias hupac='helm upgrade --atomic --cleanup-on-fail'
 alias hlin='helm lint'
 alias hls='helm ls'
-alias hlsa='helm ls -a'
-alias hlsaa='helm ls -A'
+alias hlsa='helm ls -A'
 alias ht='helm template'
 alias hpac='helm package'
 alias hreg='helm registry'
@@ -269,6 +268,12 @@ alias hrep='helm repo'
 alias hrls='helm repo ls'
 
 alias hh='helm history'
+
+# ---------------------------------------------------------------------------
+# AWS: aws-cli
+# ---------------------------------------------------------------------------
+
+alias awlsp='aws configure list-profiles'
 
 # ---------------------------------------------------------------------------
 # Jira: jira-cli: https://github.com/ankitpokhrel/jira-cli
