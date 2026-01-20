@@ -61,6 +61,7 @@ alias grph='git rev-parse HEAD'
 alias gw='git worktree'
 alias gfp='git format-patch'
 alias git_reset_author='git rebase -r --root --exec '\''author_date="$(git log -1 HEAD --pretty=format:"%aI")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'\'''
+alias gigwho='git check-ignore -v'
 
 # ---------------------------------------------------------------------------
 # Terraform
@@ -258,8 +259,7 @@ alias hupa='helm upgrade --atomic'
 alias hupac='helm upgrade --atomic --cleanup-on-fail'
 alias hlin='helm lint'
 alias hls='helm ls'
-alias hlsa='helm ls -a'
-alias hlsaa='helm ls -A'
+alias hlsa='helm ls -A'
 alias ht='helm template'
 alias hpac='helm package'
 alias hreg='helm registry'
@@ -269,6 +269,13 @@ alias hrep='helm repo'
 alias hrls='helm repo ls'
 
 alias hh='helm history'
+
+# ---------------------------------------------------------------------------
+# AWS: aws-cli
+# ---------------------------------------------------------------------------
+
+alias awlsp='aws configure list-profiles'
+alias shssm='aws ssm start-session --target'
 
 # ---------------------------------------------------------------------------
 # Jira: jira-cli: https://github.com/ankitpokhrel/jira-cli
