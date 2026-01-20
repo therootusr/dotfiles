@@ -61,6 +61,8 @@ alias grph='git rev-parse HEAD'
 alias gw='git worktree'
 alias gfp='git format-patch'
 alias git_reset_author='git rebase -r --root --exec '\''author_date="$(git log -1 HEAD --pretty=format:"%aI")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'\'''
+alias gigwho='git check-ignore -v'
+alias gfgh='git fetch github'
 
 # ---------------------------------------------------------------------------
 # Terraform
@@ -151,6 +153,8 @@ alias dctop="docker top"
 alias di="docker image"
 alias dib="docker image build"
 alias dii="docker image inspect"
+alias dilo="docker image load -i"
+alias dilos="docker image load"
 alias dils="docker image list"
 alias dilsa="docker image list -a"
 alias dipush="docker image push"
@@ -196,6 +200,9 @@ alias dkcim="docker compose images"
 alias dkcps='docker compose ps'
 alias dkcpsa='docker compose ps -a'
 alias dkcr="docker compose run"
+alias dkcr!="docker compose run --no-deps"
+alias dkcrrm="docker compose run --rm"
+alias dkcrrm!="docker compose run --rm --no-deps"
 alias dkclogs="docker compose logs"
 alias dkcls="docker compose ls"
 alias dkcst="docker compose start"
@@ -258,8 +265,7 @@ alias hupa='helm upgrade --atomic'
 alias hupac='helm upgrade --atomic --cleanup-on-fail'
 alias hlin='helm lint'
 alias hls='helm ls'
-alias hlsa='helm ls -a'
-alias hlsaa='helm ls -A'
+alias hlsa='helm ls -A'
 alias ht='helm template'
 alias hpac='helm package'
 alias hreg='helm registry'
@@ -269,6 +275,13 @@ alias hrep='helm repo'
 alias hrls='helm repo ls'
 
 alias hh='helm history'
+
+# ---------------------------------------------------------------------------
+# AWS: aws-cli
+# ---------------------------------------------------------------------------
+
+alias awlsp='aws configure list-profiles'
+alias shssm='aws ssm start-session --target'
 
 # ---------------------------------------------------------------------------
 # Jira: jira-cli: https://github.com/ankitpokhrel/jira-cli
