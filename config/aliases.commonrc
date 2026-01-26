@@ -63,11 +63,24 @@ alias gfp='git format-patch'
 alias git_reset_author='git rebase -r --root --exec '\''author_date="$(git log -1 HEAD --pretty=format:"%aI")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'\'''
 
 # ---------------------------------------------------------------------------
+# Terraform
+# ---------------------------------------------------------------------------
+alias tf="terraform"
+alias tfi="terraform init"
+alias tfi="terraform init --upgrade"
+alias tfp="terraform plan"
+alias tfpr="terraform plan --refresh-only"
+alias tfa="terraform apply"
+alias tfo="terraform output"
+alias tfd="terraform destroy"
+alias tfr="terraform refresh"
+alias tft="terraform taint"
+
+# ---------------------------------------------------------------------------
 # Tools + Languages
 # ---------------------------------------------------------------------------
 # use symlinks instead
 alias python=python3
-alias tfo="terraform"
 alias gpg='gpg --no-symkey-cache'
 alias clf='clang-format --style=file --fallback-style=google'
 alias gcf='f_git_staged_clang_format'

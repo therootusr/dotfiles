@@ -268,6 +268,11 @@ function ws_trim {
   sed -i '' -e 's/^[[:space:]]*$//g' -e 's/[[:space:]]*$//g' $1
 }
 
+# ws: whitespace
+function gws_trim {
+  sed -i '' -e 's/^[[:space:]]*$//g' -e 's/[[:space:]]*$//g' $(git diff --name-only --cached)
+}
+
 # prints max mem used in kb
 function xtime {
   /usr/bin/time -f '%Uu %Ss %er %MkB %C' "$@"
@@ -283,4 +288,10 @@ function test_block_dev_perf {
 function test_disk_perf {
   local fio_filepath=$1
   fio --name=randrw4k --rw=randrw --bs=4k --iodepth=32 --size=2G --runtime=30 --time_based --ioengine=io_uring --direct=1 --filename=$fio_filepath --group_reporting
+}
+
+function tfch {
+  local target_dir=$1
+  shift
+  terraform -chdir=$target_dir $@
 }
