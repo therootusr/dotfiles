@@ -19,8 +19,10 @@ noremap K <C-r>
 " noremap search
 noremap s *
 noremap S #
-" noremap # "jyeq/"jp<CR>
-noremap # "jye/<C-r>j<CR>
+" noremap gs "jyeq/"jp<CR>
+noremap gs "jye/<C-r>j<CR>
+noremap gS "jy$/<C-r>j<CR>
+noremap # "jyy/<C-r>j<CR>
 noremap h f
 noremap H F
 
