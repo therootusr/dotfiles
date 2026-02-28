@@ -4,7 +4,8 @@
 # General / Navigation / Files
 # ---------------------------------------------------------------------------
 alias cdot='cd $MY_DOTFILES_DIR'
-alias cdc='cd $MY_DOTFILES_DIR'
+# TODO: restructure dotfiles dir to create dedicated top level folders
+alias cdc='cd $(dirname $MY_DOTFILES_DIR)/'
 alias cdp='cd ~/workspace/playground'
 alias cdt='cd ~/workspace/tmp'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
@@ -98,10 +99,15 @@ alias ssh='ssh -F $MY_DOTFILES_DIR/ssh_config -o stricthostkeychecking=no -o Use
 # ---------------------------------------------------------------------------
 # Tmux
 # ---------------------------------------------------------------------------
-alias t='tmux'
-alias ta='tmux a'
-alias tls='tmux ls'
-alias tks='tmux kill-server'
+# TODO: re-layout this repo and update MY_DOTFILES_DIR;
+MY_TMUX_DOTFILES_DIR="$(dirname $MY_DOTFILES_DIR)/tmux/"
+export MY_TMUX_CONF="$MY_TMUX_DOTFILES_DIR/tmux.conf"
+alias t='tmux -f $MY_TMUX_CONF'
+alias ta='t a'
+alias tls='t ls'
+alias tlk='t list-keys'
+alias tks='t kill-server'
+alias tws='EDITOR=v TMUX_CONF=$MY_TMUX_CONF bash $MY_TMUX_DOTFILES_DIR/tmux-workspace.sh'
 
 # ---------------------------------------------------------------------------
 # System + Admin
