@@ -176,16 +176,17 @@ function nhup {
 }
 
 function wait_for_remote_proc {
-  remote=$1
-  proc=$2
+  local -r remote=$1
+  local -r proc=$2
   # "tail -1" is suboptimal
   if is_unsigned_int $proc; then
-    notif=`ssh $remote "ps -p $proc -o cmd | tail -1"`
-    wait_for_cmd="ps -p $proc"
+    local -r notif=`ssh $remote "ps -p $proc -o cmd | tail -1"`
+    local -r wait_for_cmd="ps -p $proc"
   else
-    notif=`ssh $remote "pgrep -a $proc | tail -1"`
+    local -r notif=`ssh $remote "ps -o pid,cmd ax | grep $proc | grep -v \"grep $proc\" | tail -1"`
+    local -r pid=`echo $notif | cut -d' ' -f1`
     # pidof
-    wait_for_cmd="pgrep $proc"
+    local -r wait_for_cmd="ps -p $pid"
   fi
 
   # TODO: what if pid was reused
