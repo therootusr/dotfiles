@@ -97,10 +97,10 @@ alias ssh='ssh -F $MY_DOTFILES_DIR/ssh_config -o stricthostkeychecking=no -o Use
 # ---------------------------------------------------------------------------
 # Tmux
 # ---------------------------------------------------------------------------
-alias t='tmux'
-alias ta='tmux a'
-alias tls='tmux ls'
-alias tks='tmux kill-server'
+alias t='tmux -f $MY_DOTFILES_DIR/tmux.conf'
+alias ta='t a'
+alias tls='t ls'
+alias tks='t kill-server'
 
 # ---------------------------------------------------------------------------
 # System + Admin
