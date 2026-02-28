@@ -32,8 +32,6 @@ SRC_DOTFILES_DIR=$(dirname "$THIS_SCRIPT_PATH")
 
 # ln -vs $SRC_DOTFILES_DIR/workman.basic.vimrc $TGT_DOTFILE_DIR/.ideavimrc
 # ln -vs $SRC_DOTFILES_DIR/workman.vimrc $HOME/.vimrc
-# Shadow tmux cmd using a tmux alias that sources $SRC_DOTFILES_DIR/tmux.conf
-# ln -vs $SRC_DOTFILES_DIR/tmux.conf $HOME/.tmux.conf
 
 echo "INFO: creating '~/.ssh/cm_socket' if it doesn't exist"
 mkdir -p ~/.ssh/cm_socket
