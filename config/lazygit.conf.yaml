@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+os:
+  editPreset: 'vim'
+
+keybinding:
+  universal:
+    prevItem: 'u'
+    nextItem: 'e'
+    prevItem-alt: <up>
+    nextItem-alt: <down>
+    prevBlock: 'o'
+    nextBlock: 'n'
+    prevBlock-alt: <left>
+    nextBlock-alt: <right>
+    nextMatch: 'l'
+    prevMatch: 'L'
+    new: 'k'
+    edit: 'i'
+    openFile: 'O'
+  files:
+    ignoreFile: 'I'
+
+git:
+  autoFetch: false
+  autoForwardBranches: false
+  autoStageResolvedConflicts: false
+
+gui:
+  showNumstatInFilesView: true
