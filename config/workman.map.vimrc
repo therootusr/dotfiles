@@ -37,18 +37,19 @@ noremap <C-n> :cn<CR>
 noremap <C-p> :cp<CR>
 
 " noremap buffers
-noremap <expr>j ":<C-U>".nr2char(getchar())."b<CR>"
-noremap jb :ls<CR>
-noremap j! :ls!<CR>
-" noremap jd :bp<bar>sp<bar>bn<bar>bd<CR>
-noremap jd :bp<CR>:bd #<CR>
-noremap ju :vert sbprevious<CR>
-noremap jn :bprevious<CR>
-noremap j\ :vert sbnext<CR>
-noremap j- :sbnext<CR>
-noremap jo :bnext<CR>
-noremap jg <C-^>
-noremap js <C-W>^<C-W>H
+" <Space>1 -> :1b<CR>
+noremap <expr><Space> ":<C-U>".nr2char(getchar())."b<CR>"
+noremap <Space>b :ls<CR>
+noremap <Space>! :ls!<CR>
+" noremap <Space>d :bp<bar>sp<bar>bn<bar>bd<CR>
+noremap <Space>d :bp<CR>:bd #<CR>
+noremap <Space>u :vert sbprevious<CR>
+noremap <Space>n :bprevious<CR>
+noremap <Space>\ :vert sbnext<CR>
+noremap <Space>- :sbnext<CR>
+noremap <Space>o :bnext<CR>
+noremap <Space>g <C-^>
+noremap <Space>s <C-W>^<C-W>H
 
 " noremap windows
 noremap <Leader>w <C-w>
