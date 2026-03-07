@@ -2,6 +2,7 @@ bindkey -v
 
 # allow CTRL+v to edit the command line
 # autoload -Uz edit-command-line
+# TODO: ~/.vimrc isn't set -> vim instance opened by 'gv' isn't conf desirably.
 bindkey -M vicmd 'gv' edit-command-line
 
 # allow ctrl-r and ctrl-s to search the history
