@@ -64,13 +64,6 @@ endif
 
 let mapleader="\<tab>"
 
-" tmux prefix is tab too, though tab will take priority as vim's leader via this.
-" tmux conf allows <tab><tab> -> normal <tab>
-if exists('$TMUX')
-  autocmd VimEnter * silent call system('tmux set-option -p -q @pane_no_prefix 1')
-  autocmd VimLeave * silent call system('tmux set-option -p -q @pane_no_prefix 0')
-endif
-
 " Source mappings now!
 " Newer ideavim versions (not versions until v0.64 at least) are unable
 " to source files apparently and thus, won't be able to inherit
@@ -104,8 +97,8 @@ augroup vimrc
   " code dispatch noremap; #run
   autocmd Filetype python noremap <buffer> <leader>r :vert rightb term python3 %<CR>
   autocmd Filetype go noremap <buffer> <leader>r :vert rightb term go run %<CR>
-  autocmd Filetype cpp noremap <buffer> <leader>rr :!g++ --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
-  autocmd Filetype cpp noremap <buffer> <leader>r\ :!g++ -g --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
+  autocmd Filetype cpp noremap <buffer> <leader>r :!g++ --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
+  autocmd Filetype cpp noremap <buffer> <leader><leader>r :!g++ -g --std=c++17 -o %.out %<CR> :vert rightb term ./%.out<CR>
 
   " Auto mkview and loadview
   autocmd BufWinLeave *

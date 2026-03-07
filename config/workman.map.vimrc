@@ -1,10 +1,3 @@
-" vim uses tab as <leader> overriding it as tmux prefix;
-" thus, to allow sending tmux prefix from vim:
-" redraw! keeps the screen clean; silent avoids flicker.
-if exists('$TMUX')
-  noremap <silent> <leader>t :silent call system('tmux switch-client -T prefix') \| redraw!<CR>
-endif
-
 " noremap w anad q
 noremap <leader>x :q!<CR>
 noremap <leader>q :q<CR>
