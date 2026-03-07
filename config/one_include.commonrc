@@ -21,6 +21,8 @@ export MY_DOTFILES_DIR="$(dirname "$(realpath "${0}")")"
 
 [ ! -f $MY_DOTFILES_DIR/zsh-vi-mode.workman.zshrc ] || source $MY_DOTFILES_DIR/zsh-vi-mode.workman.zshrc
 
+[ ! -f $MY_DOTFILES_DIR/zsh-vi-mode.tmux.zshrc ] || source $MY_DOTFILES_DIR/zsh-vi-mode.tmux.zshrc
+
 # [ ! -f $MY_DOTFILES_DIR/zsh-vi-mode.optional.zshrc ] || source $MY_DOTFILES_DIR/zsh-vi-mode.optional.zshrc
 
 # [ ! -f $MY_DOTFILES_DIR/.fzf.zsh ] || source $MY_DOTFILES_DIR/.fzf.zsh
