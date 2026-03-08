@@ -3,10 +3,12 @@
 # ---------------------------------------------------------------------------
 # General / Navigation / Files
 # ---------------------------------------------------------------------------
+alias cdw='cd ~/workspace'
 alias cdot='cd $MY_DOTFILES_DIR'
 alias cdc='cd $MY_DOTFILES_DIR'
 alias cdp='cd ~/workspace/playground'
 alias cdt='cd ~/workspace/tmp'
+
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias l='ls -Ahlrt'
 alias mv='mv -v'
@@ -105,7 +107,14 @@ alias ta='t a'
 alias tls='t ls'
 alias tlk='t list-keys'
 alias tks='t kill-server'
+
 alias tws='EDITOR=v TMUX_CONF=$MY_TMUX_CONF bash $MY_TMUX_CONF_DIR/tmux-workspace.sh'
+alias twsc='tws $MY_DOTFILES_DIR'
+alias twsp='tws ~/workspace/playground'
+alias twst='cd ~/workspace/tmp'
+
+# Helps clearing tmux screen (before cmd+k on iterm was nuff)
+alias cl='clear'
 
 # ---------------------------------------------------------------------------
 # System + Admin
