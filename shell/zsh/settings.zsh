@@ -40,3 +40,15 @@ function _disable_nounset_precmd() {
 }
 
 precmd_functions+=(_disable_nounset_precmd)
+
+# iTerm2 Cmd+l shortcut is set to the following to allow unified scrollback
+# wipe across tmux and non-tmux sessions (Cmd+l -> multi-action sequence):
+#   Select Menu Item "Clear Buffer", then Send ^[[24~
+# Tmux is configured to bind F12 to clear scrollback.
+# Here, safely ignore F12 (\e[24~) sent by iTerm2 Cmd+l when outside of tmux.
+# Without this, Zsh's vi-mode sees the Escape byte and drops into vicmd mode.
+# We create a dummy widget that does nothing, and bind the key to it.
+function _noop_widget() { true; }
+zle -N _noop_widget
+bindkey -M viins '\e[24~' _noop_widget
+bindkey -M vicmd '\e[24~' _noop_widget
