@@ -1,11 +1,10 @@
-# MY_DOTFILES_DIR is being exported by one_include.commonrc
+# MY_DOTFILES_DIR is being exported by one_include.zsh
 
 # ---------------------------------------------------------------------------
 # General / Navigation / Files
 # ---------------------------------------------------------------------------
 alias cdot='cd $MY_DOTFILES_DIR'
-# TODO: restructure dotfiles dir to create dedicated top level folders
-alias cdc='cd $(dirname $MY_DOTFILES_DIR)/'
+alias cdc='cd $MY_DOTFILES_DIR'
 alias cdp='cd ~/workspace/playground'
 alias cdt='cd ~/workspace/tmp'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
@@ -15,7 +14,7 @@ alias cp='cp -v'
 alias rm='rm -v'
 # Tree colored output MAC.
 alias tree='tree -C'
-alias lg='lazygit --use-config-file="$MY_DOTFILES_DIR/lazygit.conf.yaml"'
+alias lg='lazygit --use-config-file="$MY_DOTFILES_DIR/misc/lazygit.conf.yaml"'
 
 # ---------------------------------------------------------------------------
 # Clipboard
@@ -32,8 +31,8 @@ alias cal='gcalcli'
 # ---------------------------------------------------------------------------
 # Editors: vim
 # ---------------------------------------------------------------------------
-alias v="vim -u $MY_DOTFILES_DIR/workman.basic.vimrc"
-alias gv='vim -u $MY_DOTFILES_DIR/workman.basic.vimrc `git ls-files | fzf -m`'
+alias v="vim -u $MY_DOTFILES_DIR/vim/workman.basic.vimrc"
+alias gv='vim -u $MY_DOTFILES_DIR/vim/workman.basic.vimrc `git ls-files | fzf -m`'
 alias gvi='vim `git ls-files | fzf -m`'
 alias vz='vim `fzf -m`'
 alias vi='vim -u `mktemp`'
@@ -94,20 +93,19 @@ alias elw='elinks --dump-width 1000'
 # ---------------------------------------------------------------------------
 # Network + Remote
 # ---------------------------------------------------------------------------
-alias ssh='ssh -F $MY_DOTFILES_DIR/ssh_config -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
+alias ssh='ssh -F $MY_DOTFILES_DIR/ssh/ssh_config -o stricthostkeychecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes'
 
 # ---------------------------------------------------------------------------
 # Tmux
 # ---------------------------------------------------------------------------
-# TODO: re-layout this repo and update MY_DOTFILES_DIR;
-MY_TMUX_DOTFILES_DIR="$(dirname $MY_DOTFILES_DIR)/tmux/"
-export MY_TMUX_CONF="$MY_TMUX_DOTFILES_DIR/tmux.conf"
+MY_TMUX_CONF_DIR="$MY_DOTFILES_DIR/tmux"
+MY_TMUX_CONF="$MY_TMUX_CONF_DIR/tmux.conf"
 alias t='tmux -f $MY_TMUX_CONF'
 alias ta='t a'
 alias tls='t ls'
 alias tlk='t list-keys'
 alias tks='t kill-server'
-alias tws='EDITOR=v TMUX_CONF=$MY_TMUX_CONF bash $MY_TMUX_DOTFILES_DIR/tmux-workspace.sh'
+alias tws='EDITOR=v TMUX_CONF=$MY_TMUX_CONF bash $MY_TMUX_CONF_DIR/tmux-workspace.sh'
 
 # ---------------------------------------------------------------------------
 # System + Admin
