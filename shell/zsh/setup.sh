@@ -25,13 +25,15 @@ fi
 
 # Create symlinks
 THIS_SCRIPT_PATH=$(realpath $0)
-SRC_DOTFILES_DIR=$(dirname "$THIS_SCRIPT_PATH")
+ZSH_CONF_DIR="$(dirname $THIS_SCRIPT_PATH)"
+DOTFILES_ROOT_DIR=$(realpath -m "$THIS_SCRIPT_PATH"/../../..)
+VIM_CONF_DIR="$DOTFILES_ROOT_DIR/vim"
 
 # TGT_DOTFILE_DIR="$HOME/.dotfiles"
 # mkdir -v $TGT_DOTFILE_DIR
 
-# ln -vs $SRC_DOTFILES_DIR/workman.basic.vimrc $TGT_DOTFILE_DIR/.ideavimrc
-# ln -vs $SRC_DOTFILES_DIR/workman.vimrc $HOME/.vimrc
+# ln -vs $VIM_CONF_DIR/workman.basic.vimrc $TGT_DOTFILE_DIR/.ideavimrc
+# ln -vs $VIM_CONF_DIR/workman.vimrc $HOME/.vimrc
 
 echo "INFO: creating '~/.ssh/cm_socket' if it doesn't exist"
 mkdir -p ~/.ssh/cm_socket
@@ -39,9 +41,9 @@ mkdir -p ~/.ssh/cm_socket
 echo "INFO: updating the global git config"
 # Skip cp if file doesn't exist (set -e is in effect)
 [[ -e ~/.gitconfig ]] && cp -v ~/.gitconfig ~/.gitconfig.backup.$IDEMPOTENTIFY_MARK.$(date +%s)
-git config --global core.editor "vim -u $SRC_DOTFILES_DIR/workman.basic.vimrc -c 'set nomodeline'"
+git config --global core.editor "vim -u $VIM_CONF_DIR/workman.basic.vimrc -c 'set nomodeline'"
 git config --global receive.denyCurrentBranch updateInstead
-git config --global core.sshCommand "ssh -F $SRC_DOTFILES_DIR/ssh_config"
+git config --global core.sshCommand "ssh -F $DOTFILES_ROOT_DIR/ssh/ssh_config"
 git config --global init.defaultBranch master
 git config --global user.name "ps"
 git config --global user.email "24826492+therootusr@users.noreply.github.com"
@@ -57,5 +59,5 @@ cat << EOT >> $ZSHRC_PATH
 # SCRIPT: $THIS_SCRIPT_PATH
 # IDEMPOTENTIFY_MARK: $IDEMPOTENTIFY_MARK
 
-[ ! -f $SRC_DOTFILES_DIR/one_include.commonrc ] || source $SRC_DOTFILES_DIR/one_include.commonrc
+[ ! -f $ZSH_CONF_DIR/one_include.zsh ] || source $ZSH_CONF_DIR/one_include.zsh
 EOT
