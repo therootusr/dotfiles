@@ -44,6 +44,84 @@ function fixup() {
   git commit -v -a --amend --no-edit
 }
 
+# Amend staged changes into an existing commit.
+# Usage: git_amend_to_commit [COMMIT]
+#   If COMMIT is omitted, use fzf to pick from git log (if available).
+# gac -> git_amend_to_commit
+function gac() {
+  if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo "ERROR: not a git repo" >&2
+    return 1
+  fi
+
+  # Can check if rebase/merge/bisect etc. is running like git's own
+  # git-prompt.sh does it (checks files under .git dir) and fail fast.
+  # Currently, rely on end-user to know when to trigger this.
+
+  if git diff --cached --quiet; then
+    echo "ERROR: no staged changes" >&2
+    return 1
+  fi
+
+  local target="${1:-}"
+  if [[ -z "$target" ]]; then
+    if command -v fzf >/dev/null 2>&1; then
+      target=$(git log --oneline --decorate --no-color -n 30 | fzf --prompt="commit> " | awk '{print $1}')
+    else
+      git log --oneline --decorate -n 30
+      echo -n "Commit: "
+      read -r target
+    fi
+  fi
+
+  if [[ -z "$target" ]]; then
+    echo "ERROR: no commit selected" >&2
+    return 1
+  fi
+
+  if ! git rev-parse --verify "$target^{commit}" >/dev/null 2>&1; then
+    echo "ERROR: invalid commit: $target" >&2
+    return 1
+  fi
+
+  local target_sha
+  target_sha=$(git rev-parse "$target")
+
+  if ! git merge-base --is-ancestor "$target_sha" HEAD >/dev/null 2>&1; then
+    echo "ERROR: commit is not an ancestor of HEAD" >&2
+    return 1
+  fi
+
+  # Disallow if target is a merge commit (needed even if we use --rebase-merges in future)
+  if [[ $(git rev-list --parents -n 1 "$target_sha" | wc -w) -gt 2 ]]; then
+    echo "ERROR: target commit is a merge commit" >&2
+    return 1
+  fi
+
+  # Fail fast and don't flatten any merge commits.
+  # Future: consider --rebase-merges flag if this is needed.
+  if [[ $(git rev-list --merges "${target_sha}..HEAD" | wc -l) -gt 0 ]]; then
+    echo "ERROR: merge commits present in the rebase history" >&2
+    return 1
+  fi
+
+  if [[ "$target_sha" == "$(git rev-parse HEAD)" ]]; then
+    git commit --amend --no-edit
+    return $?
+  fi
+
+  git commit --fixup "$target_sha" || return $?
+
+  # If target's root, then run with '--root'
+  if git rev-parse --verify "${target_sha}^" >/dev/null 2>&1; then
+    GIT_SEQUENCE_EDITOR="${GIT_SEQUENCE_EDITOR:-:}" \
+      git rebase -i --autosquash --autostash "${target_sha}^"
+  else
+    GIT_SEQUENCE_EDITOR="${GIT_SEQUENCE_EDITOR:-:}" \
+      git rebase -i --autosquash --autostash --root
+  fi
+}
+
 # works with zsh; doesn't work with bash
 function clang-format-git() {
   # is_git=$(git diff $1 &>/dev/null)
