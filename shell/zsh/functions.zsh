@@ -241,6 +241,12 @@ function sshp {
   expect $HOME/workspace/misc/scripts/ssh_pass.exp $@
 }
 
+# https://jvns.ca/til/vim-osc52/
+# rcp -> remote_cp
+function rcp() {
+  printf '\033]52;c;%s\007' "$(base64 | tr -d '\n')"
+}
+
 # DEPRECATED: use "$ (cmd) $!" to disown (portable?)
 # Following errors seen when running just nohup zsh -ci '...':
 #   - suspended (tty output) (stty -tostop didn't help)
