@@ -66,7 +66,7 @@ function gac() {
   local target="${1:-}"
   if [[ -z "$target" ]]; then
     if command -v fzf >/dev/null 2>&1; then
-      target=$(git log --oneline --decorate --no-color -n 30 | fzf --prompt="commit> " | awk '{print $1}')
+      target=$(git log --oneline --decorate --no-color -n 30 | fzf --ansi --prompt="commit> " --delimiter=' ' --preview='git show --format=fuller --stat --numstat -p --color=always {1}' | awk '{print $1}')
     else
       git log --oneline --decorate -n 30
       echo -n "Commit: "
