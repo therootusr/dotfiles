@@ -268,7 +268,7 @@ function wait_for_remote_proc {
     local -r wait_for_cmd="ps -p $proc"
   else
     local -r notif=`ssh $remote "ps -o pid,cmd ax | grep $proc | grep -v \"grep $proc\" | tail -1"`
-    local -r pid=`echo $notif | cut -d' ' -f1`
+    local -r pid=`echo $notif | grep -o "[^ ].*" |  cut -d' ' -f1`
     # pidof
     local -r wait_for_cmd="ps -p $pid"
   fi
