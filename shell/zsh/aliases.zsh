@@ -50,6 +50,7 @@ alias glgu='glg @{upstream}'
 alias glgf='glg --format=fuller'
 alias glodf='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(yellow)(%cd) %C(bold blue)<%an>%Creset"'
 alias gdcaw='git diff --cached --word-diff'
+alias gdwc='git diff --color-words'
 alias gdu='git diff @{upstream}'
 alias gduw='git diff @{upstream} --word-diff'
 alias gfzf="git ls-files | fzf -m"
