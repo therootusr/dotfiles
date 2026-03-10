@@ -14,7 +14,7 @@ alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias l='ls -Ahlrt'
 alias mv='mv -v'
 alias cp='cp -v'
-alias rm='rm -v'
+alias rm='rm -vI'
 # Tree colored output MAC.
 alias tree='tree -C'
 alias lg='lazygit --use-config-file="$MY_DOTFILES_DIR/misc/lazygit.conf.yaml"'
@@ -51,6 +51,7 @@ alias glgu='glg @{upstream}'
 alias glgf='glg --format=fuller'
 alias glodf='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(yellow)(%cd) %C(bold blue)<%an>%Creset"'
 alias gdcaw='git diff --cached --word-diff'
+alias gdwc='git diff --color-words'
 alias gdu='git diff @{upstream}'
 alias gduw='git diff @{upstream} --word-diff'
 alias gfzf="git ls-files | fzf -m"
@@ -92,6 +93,8 @@ alias clf='clang-format --style=file --fallback-style=google'
 alias gcf='f_git_staged_clang_format'
 alias gcfa='f_git_staged_clang_format_all'
 alias elw='elinks --dump-width 1000'
+alias watch='watch -tbd=permanent'
+alias glow='glow -s auto -w 120 -p --mouse'
 
 # ---------------------------------------------------------------------------
 # Network + Remote
@@ -335,3 +338,10 @@ alias tiel='jira epic list -RUnresolved'
 alias tiela='jira epic list'
 alias tiem='jira epic list -RUnresolved -a $(jira me)'
 alias tiema='jira epic list -a $(jira me)'
+
+# ---------------------------------------------------------------------------
+# Apps
+# ---------------------------------------------------------------------------
+# --user-data-dir disallows existing session reuse amongst other things.
+#   ("Opening in existing browser session.")
+alias chrome_socks='"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --proxy-server="socks5://localhost:1080" --user-data-dir=/tmp/chrome-socks'

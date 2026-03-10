@@ -132,6 +132,15 @@ function gac() {
   fi
 }
 
+function glz() {
+  git log --oneline --decorate --no-color $@ | \
+      fzf --ansi \
+          --prompt="commit> " \
+          --delimiter=' ' \
+          --preview='git show --format=fuller --stat --numstat -p --color=always {1}' | \
+      awk '{print $1}'
+}
+
 # works with zsh; doesn't work with bash
 function clang-format-git() {
   # is_git=$(git diff $1 &>/dev/null)
