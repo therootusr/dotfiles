@@ -1,0 +1,23 @@
+[delta "comfy"]
+    dark = true
+    line-numbers = true
+   #side-by-side = true
+    keep-plus-minus-markers = true
+    syntax-theme = zenburn
+    line-numbers-left-format = " {nm:>4}│"
+    line-numbers-left-style = red
+    line-numbers-right-format = " {np:<4}│"
+    line-numbers-right-style = green
+    line-numbers-minus-style = red
+    line-numbers-plus-style = green
+    line-numbers-zero-style = white
+    minus-style = red
+    minus-emph-style = red grey ul
+    minus-non-emph-style = white grey
+    plus-style = green
+    plus-emph-style = green grey ul
+    plus-non-emph-style = white grey
+    zero-style = white
+   #blame-code-style = syntax
+    blame-format = "{author:<15.15} ({commit:<11.11}) {timestamp:^8.8}"
+    blame-palette = "#2E3440" "#3B4252" "#434C5E" "#4C566A"

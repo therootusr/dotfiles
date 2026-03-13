@@ -49,6 +49,7 @@ git config --global core.sshCommand "ssh -F $DOTFILES_ROOT_DIR/ssh/ssh_config"
 git config --global init.defaultBranch master
 git config --global user.name "ps"
 git config --global user.email "24826492+therootusr@users.noreply.github.com"
+git config --global --add include.path $DOTFILES_ROOT_DIR/git/delta/delta.gitconfig
 
 echo "INFO: saving existing zshrc"
 cp -v $ZSHRC_PATH $ZSHRC_PATH.before.$IDEMPOTENTIFY_MARK.zshrc
