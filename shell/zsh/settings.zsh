@@ -7,7 +7,7 @@ KONSOLE_VERSION=""
 # Set as zsh hook; otherwise certain stuff can misbehave (zsh theme / warp)
 # set -o nounset
 
-export LESS=-MiRW
+export LESS=-MiRWJ
 export LC_ALL=en_US.UTF-8
 export USR_LOG_DIR="$HOME/workspace/data/logs"
 export HOMEBREW_NO_ANALYTICS=1
