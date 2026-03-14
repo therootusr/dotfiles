@@ -40,3 +40,21 @@ function _disable_nounset_precmd() {
 }
 
 precmd_functions+=(_disable_nounset_precmd)
+
+## -------------- Redact hostname in right-prompt for security ----------------
+# Partial redact: use: %3>>…%<< (truncate the remainder to length 3, from
+# the right, with empty replacement).
+#   e.g: POWERLEVEL9K_CONTEXT_REMOTE_TEMPLATE='%n@%3>>%m%<<'
+# %M: to trunc the full hostname (incl. domain) instead of "up to first dot."
+
+# local session doesn't print hostname on right prompt anyway
+# typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n@'
+
+# when p10k on remote detects shell's in a remote session
+typeset -g POWERLEVEL9K_CONTEXT_REMOTE_TEMPLATE='%n@'
+
+# root isn't configured with p10k
+# POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE='%n@'
+# POWERLEVEL9K_CONTEXT_REMOTE_SUDO_TEMPLATE='%n@'
+
+## ----------------------------------------------------------------------------
