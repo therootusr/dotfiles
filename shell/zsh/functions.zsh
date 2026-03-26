@@ -44,6 +44,16 @@ function fixup() {
   git commit -v -a --amend --no-edit
 }
 
+function ffz {
+  local target_dir="${1:-$(pwd)}"
+  find "$target_dir" | \
+      fzf -m \
+          --ansi \
+          --prompt='copy-filepath> ' \
+          --preview='wc {} && head {}' | \
+      base64 | tr -d '\n' | xargs -I{} printf '\033]52;c;%s\007' '{}'
+}
+
 # Amend staged changes into an existing commit.
 # Usage: git_amend_to_commit [COMMIT]
 #   If COMMIT is omitted, use fzf to pick from git log (if available).
