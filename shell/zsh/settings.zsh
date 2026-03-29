@@ -7,6 +7,13 @@ KONSOLE_VERSION=""
 # Set as zsh hook; otherwise certain stuff can misbehave (zsh theme / warp)
 # set -o nounset
 
+MY_ENV_FILE="${MY_DOTFILES_DIR}/.env"
+if [ -f "$MY_ENV_FILE" ]; then
+  set -a
+  source "$MY_ENV_FILE"
+  set +a
+fi
+
 export LESS=-MiRWJ
 export LC_ALL=en_US.UTF-8
 export USR_LOG_DIR="$HOME/workspace/data/logs"
