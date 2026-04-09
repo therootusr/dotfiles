@@ -31,6 +31,7 @@ export PATH="$PATH:$GOPATH/bin"
 # Apparently cursor wasn't picking it up (golang plugin in there)
 export GOBIN=$HOME/.go/bin
 export HWATCH="--limit 20 --line-number --no-help-banner --no-title --border --color --with-scrollbar --differences word"
+export TMUX_EDITOR='vim -u $MY_DOTFILES_DIR/vim/workman.basic.vimrc'
 
 # extended zsh_history
 setopt extended_history
