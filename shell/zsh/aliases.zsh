@@ -34,8 +34,7 @@ alias cal='gcalcli'
 # ---------------------------------------------------------------------------
 # Editors: vim
 # ---------------------------------------------------------------------------
-alias v="vim -u $MY_DOTFILES_DIR/vim/workman.basic.vimrc"
-alias gv='vim -u $MY_DOTFILES_DIR/vim/workman.basic.vimrc `git ls-files | fzf -m`'
+alias gv='v `git ls-files | fzf -m`'
 alias gvi='vim `git ls-files | fzf -m`'
 alias vz='vim `fzf -m`'
 alias vi='vim -u `mktemp`'
@@ -44,7 +43,8 @@ alias vi='vim -u `mktemp`'
 # Git
 # ---------------------------------------------------------------------------
 alias gbvv='git branch -vv'
-alias gg='git grep'
+alias gg='GREP_CMD="git grep" fzf_grep'
+alias ggz='fzf_grep -r --exclude-dir=.git'
 alias gs='git status'
 alias glon='glo --numstat'
 alias glgu='glg @{upstream}'
@@ -86,7 +86,7 @@ alias tft="terraform taint"
 # ---------------------------------------------------------------------------
 # Tools + Languages
 # ---------------------------------------------------------------------------
-# use symlinks instead
+# use symlinks instead?
 alias python=python3
 alias gpg='gpg --no-symkey-cache'
 alias clf='clang-format --style=file --fallback-style=google'
