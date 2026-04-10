@@ -1,3 +1,16 @@
+function v() {
+  vim -u "$MY_DOTFILES_DIR/vim/workman.basic.vimrc" "$@"
+}
+
+# Open vim with quickfix loaded from paste buffer (tmux or system clipboard).
+function vpq() {
+  if [[ -n "${TMUX:-}" ]]; then
+    v -q <(tmux save-buffer -)
+  else
+    v -q <(pbpaste)
+  fi
+}
+
 # +10, -31 -> not int
 function is_unsigned_int () {
     case "$1" in
@@ -52,6 +65,45 @@ function ffz {
           --prompt='copy-filepath> ' \
           --preview='wc {} && head {}' | \
       base64 | tr -d '\n' | xargs -I{} printf '\033]52;c;%s\007' '{}'
+}
+
+# Pipe ${GREP_CMD:-grep} results through fzf with preview, copy selection to clipboard.
+# All args forwarded to the engine as-is. Output: file:line:match (vim-quickfix-compatible).
+# Aliases: gg (recursive grep), ggz (git grep). See aliases.zsh.
+function fzf_grep() {
+  if [[ $# -lt 1 ]]; then
+    echo "Usage: fzf_grep [GREP_FLAGS...] PATTERN [PATH...]" >&2
+    return 1
+  fi
+
+  local -a grep_cmd=(${=GREP_CMD:-grep})
+
+  local -a defaults=(-In --color=always)
+
+  local preview_cmd
+  # fallback? preview_cmd='head -n $((({2} + 30))) {1} 2>/dev/null | tail -n 60'
+  # If needed: ln -svf --backup=numbered `which batcat` ~/.local/bin/bat
+  preview_cmd='bat --style=numbers --color=always --highlight-line {2} {1}'
+
+  local result
+  result=$("${grep_cmd[@]}" "${defaults[@]}" "$@" 2>/dev/null |
+    fzf --multi --ansi \
+        --delimiter=: \
+        --preview="$preview_cmd" \
+        --preview-window='down:50%:+{2}-10' \
+        --prompt="${grep_cmd[*]}> " \
+        --header='TAB=select  Enter=copy to clipboard')
+
+  [[ -z "$result" ]] && return 0
+
+  if [[ -n "${TMUX:-}" ]]; then
+    printf '%s' "$result" | tmux load-buffer -w -
+  else
+    printf '%s' "$result" | base64 | tr -d '\n' |
+      xargs -I{} printf '\033]52;c;%s\007' '{}'
+  fi
+
+  echo "$result"
 }
 
 # Amend staged changes into an existing commit.
