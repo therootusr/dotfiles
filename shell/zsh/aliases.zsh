@@ -65,7 +65,6 @@ alias grp='git rev-parse'
 alias grph='git rev-parse HEAD'
 alias gw='git worktree'
 alias gfp='git format-patch'
-alias git_reset_author='git rebase -r --root --exec '\''author_date="$(git log -1 HEAD --pretty=format:"%aI")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'\'''
 alias gigwho='git check-ignore -v'
 alias gfgh='git fetch github'
 

@@ -569,3 +569,9 @@ function git_cp_commits() {
   git -C "$src" format-patch "$range" --stdout | git -C "$tgt" am
   (cd "$tgt" && git rebase -r "${old_head:---root}" --exec 'author_date="$(git log -1 HEAD --pretty=format:"%aI")" && git commit --amend --no-edit --reset-author --date="$author_date"')
 }
+
+# alias git_reset_author='git rebase -r --root --exec '\''author_date="$(git log -1 HEAD --pretty=format:"%aI")" &&  git commit --amend --no-edit --reset-author --date="$author_date"'\'''
+function git_reset_author() {
+  local base="${1:?usage: git_reset_author_from <base-ref>}"
+  git rebase -r "$base" --exec 'author_date="$(git log -1 HEAD --pretty=format:"%aI")" && git commit --amend --no-edit --reset-author --date="$author_date"'
+}
