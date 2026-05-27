@@ -376,6 +376,12 @@ function f_dc {
   cd - > /dev/null
 }
 
+function f_pc {
+  cd $(dirname $(find . -iname "compose.yaml"))
+  podman compose $@
+  cd - > /dev/null
+}
+
 function f_generate_ecdsa {
   KEY_FILE=$1
   openssl ecparam -genkey -name secp521r1 -out $KEY_FILE

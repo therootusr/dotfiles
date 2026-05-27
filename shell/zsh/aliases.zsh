@@ -227,6 +227,96 @@ alias dkcst="docker compose start"
 alias dkcstp="docker compose stop"
 
 # ---------------------------------------------------------------------------
+# Podman
+# ---------------------------------------------------------------------------
+alias po='podman'
+
+alias pb='podman build'
+
+alias pbx='podman builder'
+alias pbxpru='podman builder prune'
+alias pbxprua='podman builder prune -a'
+
+alias pctx='podman context'
+
+alias pc="podman container"
+alias pca="podman container attach"
+alias pci="podman container inspect"
+alias pcls="podman container ls"
+alias pclsa="podman container ls -a"
+alias pcpru="podman container prune"
+alias pcr="podman container run"
+alias pcrrm="podman container run --rm"
+alias pcrit="podman container run -it"
+alias pcritrm="podman container run -it --rm"
+alias pcrm="podman container rm"
+alias pcrmfv="podman container rm -f -v"
+alias pcx="podman container exec"
+alias pcxit="podman container exec -it"
+alias pclogs="podman container logs"
+alias pcrst="podman container restart"
+alias pcst="podman container start"
+alias pcstp="podman container stop"
+alias pcstpf="podman container stop -s SIGKILL"
+alias pcstpa="podman stop \$(podman ps -q)"
+alias pctop="podman top"
+
+alias pi="podman image"
+alias pib="podman image build"
+alias pii="podman image inspect"
+alias pilo="podman image load -i"
+alias pilos="podman image load"
+alias pils="podman image list"
+alias pilsa="podman image list -a"
+alias pipush="podman image push"
+alias pirm="podman image rm"
+alias pit="podman image tag"
+alias pipull="podman image pull"
+alias pipru="podman image prune"
+alias piprua="podman image prune -a"
+
+alias pn="podman network"
+alias pnc="podman network create"
+alias pnco="podman network connect"
+alias pncdcn="podman network disconnect"
+alias pni="podman network inspect"
+alias pnls="podman network ls"
+alias pnrm="podman network rm"
+
+alias pv="podman volume"
+alias pvi="podman volume inspect"
+alias pvls="podman volume ls"
+alias pvrm="podman volume rm"
+alias pvpru="podman volume prune"
+alias pvprua="podman volume prune -a"
+
+alias f_pcup='f_pc up'
+alias f_pcps='f_pc ps'
+
+# ---------------------------------------------------------------------------
+# Podman Compose
+# ---------------------------------------------------------------------------
+alias poc='podman compose'
+alias pocb="podman compose build"
+alias pocup='podman compose up'
+alias pocupb='podman compose up --build'
+alias pocupbf='podman compose up --build --force-recreate'
+alias pocd="podman compose down"
+alias pocdv="podman compose down -v"
+alias pocda="podman compose down -v --rmi all"
+alias pocim="podman compose images"
+alias pocps='podman compose ps'
+alias pocpsa='podman compose ps -a'
+alias pocr="podman compose run"
+alias pocr!="podman compose run --no-deps"
+alias pocrrm="podman compose run --rm"
+alias pocrrm!="podman compose run --rm --no-deps"
+alias poclogs="podman compose logs"
+alias pocls="podman compose ls"
+alias pocst="podman compose start"
+alias pocstp="podman compose stop"
+
+# ---------------------------------------------------------------------------
 # Kubernetes
 # ---------------------------------------------------------------------------
 alias kd="kubectl describe"
