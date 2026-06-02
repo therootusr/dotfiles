@@ -581,3 +581,104 @@ function git_reset_author() {
   local base="${1:?usage: git_reset_author <base-ref|--root>}"
   git rebase -r "$base" --exec 'author_date="$(git log -1 HEAD --pretty=format:"%aI")" && git commit --amend --no-edit --reset-author --date="$author_date"'
 }
+
+# Save the image on the macOS clipboard to a PNG file.
+# Usage: pimg [path.png]   (defaults to a timestamped name in $PWD)
+#        pimg && imgcat "$(pimg)"   # capture the printed path
+func pimg() {
+  local file="${1:-screenshot-$(date +%Y%m%d-%H%M%S).png}"
+
+  # Resolve to an absolute path so osascript writes where you expect.
+  [[ "$file" = /* ]] || file="$PWD/$file"
+
+  # Escape \ and " for the AppleScript string literal.
+  local esc=${file//\\/\\\\}
+  esc=${esc//\"/\\\"}
+
+  if osascript \
+      -e 'set pngData to (the clipboard as «class PNGf»)' \
+      -e 'set f to (open for access (POSIX file "'"$esc"'") with write permission)' \
+      -e 'try' \
+      -e '    set eof f to 0' \
+      -e '    write pngData to f' \
+      -e '    close access f' \
+      -e 'on error errMsg' \
+      -e '    close access f' \
+      -e '    error errMsg' \
+      -e 'end try' 2>/dev/null
+  then
+    echo "$file"
+  else
+    echo "pimg: no image on the clipboard" >&2
+    return 1
+  fi
+}
+
+# tfan (tmux fan) CMD... — open a tiled pane per whitespace-separated token in
+# the top-most tmux buffer and run CMD in it. The token replaces {} anywhere in
+# CMD (xargs-style); with no {} it's appended to the end. Panes are real shells
+# (CMD is sent via send-keys), so they stay open on exit/error. Run inside tmux.
+#   buffer: "web1 web2"
+#   tfan "ssh {}"          ->  per pane: ssh web1        / ssh web2
+#   tfan "ping {} -c1"     ->  per pane: ping web1 -c1   / ping web2 -c1
+#   tfan "ssh "            ->  per pane: ssh web1        (no {} -> token appended)
+tfan() {
+  [ -n "$TMUX" ] || { echo "tfan: must be run inside a tmux session" >&2; return 1; }
+  [ "$#" -gt 0 ] || { echo "tfan: usage: tfan CMD... ({} = buffer token, else appended)" >&2; return 1; }
+
+  local cmd="$*" buf line first=1 tok
+  buf=$(tmux show-buffer 2>/dev/null)
+
+  [ -n "$ZSH_VERSION" ] && setopt local_options sh_word_split   # zsh: word-split $buf like bash
+
+  for tok in $buf; do
+    case "$cmd" in
+      *'{}'*) line=${cmd//\{\}/$tok} ;;   # {} -> token, anywhere in CMD
+      *)      line="$cmd$tok" ;;          # no {} -> append to the end
+    esac
+    if [ "$first" = 1 ]; then
+      tmux new-window -c "#{pane_current_path}"; first=0
+    else
+      tmux split-window -v -c "#{pane_current_path}"
+      tmux select-layout tiled
+    fi
+    tmux send-keys "$line" Enter
+  done
+  [ "$first" = 0 ] || { echo "tfan: no tokens in top tmux buffer" >&2; return 1; }
+  tmux select-layout tiled
+}
+
+# cshred (compat shred) FILE... — overwrite each file with random bytes (via
+# openssl), flush, then unlink it. A portable stand-in for shred(1) on boxes
+# that don't ship it. Single pass; best-effort only (no guarantee on copy-on-
+# write filesystems, SSDs with wear-leveling, or anything that snapshots).
+# Writes raw random bytes, not ascii: max entropy, and the bytes are discarded
+# anyway, so there's no reason to restrict them to a printable subset.
+#   cshred secret.key             # overwrite + remove one file
+#   cshred *.pem creds.json       # several at once
+cshred() {
+  [ "$#" -gt 0 ] || { echo "cshred: usage: cshred FILE..." >&2; return 1; }
+  command -v openssl >/dev/null 2>&1 || { echo "cshred: openssl not found" >&2; return 1; }
+
+  local f size rc=0
+  for f in "$@"; do
+    if [ -L "$f" ] || [ ! -f "$f" ]; then
+      echo "cshred: $f: not a regular file" >&2; rc=1; continue   # skip symlinks, dirs, devices, missing
+    fi
+    if [ ! -w "$f" ]; then
+      echo "cshred: $f: not writable" >&2; rc=1; continue
+    fi
+    # File size, portably: GNU stat (-c%s) then BSD/macOS stat (-f%z).
+    size=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f" 2>/dev/null)
+    if [ -z "$size" ]; then
+      echo "cshred: $f: cannot determine size; skipping" >&2; rc=1; continue
+    elif [ "$size" -gt 0 ]; then
+      if ! openssl rand "$size" > "$f"; then   # leave the (now-clobbered) file so the failure is visible
+        echo "cshred: $f: overwrite failed" >&2; rc=1; continue
+      fi
+      sync
+    fi
+    rm -f "$f" || rc=1
+  done
+  return "$rc"
+}
