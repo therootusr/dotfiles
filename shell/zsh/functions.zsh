@@ -581,3 +581,62 @@ function git_reset_author() {
   local base="${1:?usage: git_reset_author <base-ref|--root>}"
   git rebase -r "$base" --exec 'author_date="$(git log -1 HEAD --pretty=format:"%aI")" && git commit --amend --no-edit --reset-author --date="$author_date"'
 }
+
+# Save the image on the macOS clipboard to a PNG file.
+# Usage: pimg [path.png]   (defaults to a timestamped name in $PWD)
+#        pimg && imgcat "$(pimg)"   # capture the printed path
+func pimg() {
+  local file="${1:-screenshot-$(date +%Y%m%d-%H%M%S).png}"
+
+  # Resolve to an absolute path so osascript writes where you expect.
+  [[ "$file" = /* ]] || file="$PWD/$file"
+
+  # Escape \ and " for the AppleScript string literal.
+  local esc=${file//\\/\\\\}
+  esc=${esc//\"/\\\"}
+
+  if osascript \
+      -e 'set pngData to (the clipboard as «class PNGf»)' \
+      -e 'set f to (open for access (POSIX file "'"$esc"'") with write permission)' \
+      -e 'try' \
+      -e '    set eof f to 0' \
+      -e '    write pngData to f' \
+      -e '    close access f' \
+      -e 'on error errMsg' \
+      -e '    close access f' \
+      -e '    error errMsg' \
+      -e 'end try' 2>/dev/null
+  then
+    echo "$file"
+  else
+    echo "pimg: no image on the clipboard" >&2
+    return 1
+  fi
+}
+
+# tfan (tmux fan) CMD... — run "CMD <arg>" in its own tiled pane for every
+# whitespace-separated token in the top-most tmux buffer. Must be run in tmux.
+#   buffer: "10.0.0.1 10.0.0.2"
+#   tfan "ssh -J bastion ec2-user@"   ->  per pane: ssh -J bastion ec2-user@10.0.0.1
+#   tfan "ssh "                       ->  per pane: ssh 10.0.0.1   (note trailing space)
+tfan() {
+  [ -n "$TMUX" ] || { echo "tfan: must be run inside a tmux session" >&2; return 1; }
+  [ "$#" -gt 0 ] || { echo "tfan: usage: tfan CMD... (buffer token glued to the end)" >&2; return 1; }
+
+  local cmd="$*" buf
+  buf=$(tmux show-buffer 2>/dev/null) # | sed "s/[\"',]/ /g")   # strip quotes, commas -> spaces
+
+  [ -n "$ZSH_VERSION" ] && setopt local_options sh_word_split   # zsh: word-split $buf like bash
+
+  local first=1 tok
+  for tok in $buf; do
+    if [ "$first" = 1 ]; then
+      tmux new-window "$cmd$tok"; first=0
+    else
+      tmux split-window "$cmd$tok"
+      tmux select-layout tiled
+    fi
+  done
+  [ "$first" = 0 ] || { echo "tfan: no tokens in top tmux buffer" >&2; return 1; }
+  tmux select-layout tiled
+}
