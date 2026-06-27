@@ -64,7 +64,7 @@ function ffz {
           --ansi \
           --prompt='copy-filepath> ' \
           --preview='wc {} && head {}' | \
-      base64 | tr -d '\n' | xargs -I{} printf '\033]52;c;%s\007' '{}'
+      rcp
 }
 
 # Pipe ${GREP_CMD:-grep} results through fzf with preview, copy selection to clipboard.
@@ -99,8 +99,7 @@ function fzf_grep() {
   if [[ -n "${TMUX:-}" ]]; then
     printf '%s' "$result" | tmux load-buffer -w -
   else
-    printf '%s' "$result" | base64 | tr -d '\n' |
-      xargs -I{} printf '\033]52;c;%s\007' '{}'
+    printf '%s' "$result" | rcp
   fi
 
   echo "$result"
@@ -313,9 +312,13 @@ function sshp {
 }
 
 # https://jvns.ca/til/vim-osc52/
-# rcp -> remote_cp
+# rcp -> remote_cp : copy stdin to the clipboard via OSC 52 (SSH-friendly).
+# Strips trailing newline(s) so nothing stray lands in the clipboard.
 function rcp() {
-  printf '\033]52;c;%s\007' "$(base64 | tr -d '\n')"
+  local content
+  content="$(cat)"               # command substitution strips trailing newlines
+  [[ -z "$content" ]] && return 0  # don't clobber the clipboard on empty input
+  printf '\033]52;c;%s\007' "$(printf '%s' "$content" | base64 | tr -d '\n')"
 }
 
 # DEPRECATED: use "$ (cmd) $!" to disown (portable?)
