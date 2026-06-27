@@ -105,6 +105,14 @@ function fzf_grep() {
   echo "$result"
 }
 
+# Interactive directory picker over ~/workspace/personal (dirs + symlinks-to-dirs).
+# Echoes the chosen path (empty if cancelled). $1 sets the fzf prompt label.
+# Reused by: cdp (cd into it) and twsp (open a tmux workspace there). See aliases.zsh.
+function _fzf_pick_dir() {
+  find ~/workspace/personal -maxdepth 1 -type d -o \( -type l -xtype d \) |
+    fzf --ansi --prompt="${1:-pick-dir}> " --preview="find {} -maxdepth 1"
+}
+
 # Amend staged changes into an existing commit.
 # Usage: git_amend_to_commit [COMMIT]
 #   If COMMIT is omitted, use fzf to pick from git log (if available).
