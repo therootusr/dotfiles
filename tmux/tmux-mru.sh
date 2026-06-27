@@ -5,10 +5,12 @@
 # most-recently-used. Two prefix-less keys walk the stack; a pane-focus-in
 # hook keeps it up to date.
 #
-# Usage:  tmux-mru.sh {hook|back|forward}
-#   hook    - called by pane-focus-in hook (promotes current pane to MRU front)
-#   back    - navigate to older MRU entry
-#   forward - navigate to newer MRU entry
+# Usage:  tmux-mru.sh {hook|back|forward|back-window|forward-window}
+#   hook           - called by pane-focus-in hook (promotes current pane to MRU front)
+#   back           - navigate to older MRU entry (window+pane)
+#   forward        - navigate to newer MRU entry (window+pane)
+#   back-window    - navigate to older MRU window (panes skipped)
+#   forward-window - navigate to newer MRU window (panes skipped)
 #
 # stdout is captured by tmux run-shell and displayed in the message area.
 
@@ -92,6 +94,23 @@ remove_entry() {
     mv -f "$tmp" "$mru_file" || die "mv failed: $tmp -> $mru_file"
 
 }
+
+remove_window() { # drop every entry belonging to a (stale) window id
+    local wid="$1" mru_file="$2"
+    local tmp="${mru_file}.$$"
+    [ -f "$mru_file" ] || return 0
+    grep -v "^$wid " "$mru_file" > "$tmp" || true
+    mv -f "$tmp" "$mru_file" || die "mv failed: $tmp -> $mru_file"
+}
+
+nav_lines() { # emit walkable entries for a mode: window (unique wids) | pane (raw)
+    local mode="$1" mru_file="$2"
+    if [ "$mode" = window ]; then
+        awk '!seen[$1]++ {print $1}' "$mru_file"   # first occurrence = most recent
+    else
+        cat "$mru_file"
+    fi
+}
 # ── Stack operations ─────────────────────────────────────────────────────────
 
 # ── Hook handler ─────────────────────────────────────────────────────────────
@@ -121,7 +140,7 @@ cmd_hook() {
 
 # ── Navigation ───────────────────────────────────────────────────────────────
 cmd_navigate() {
-    local direction="$1"
+    local direction="$1" mode="${2:-pane}"
     local mru_file cursor total line wid pid now walk_until deadline
 
     mru_file="$(get_mru_file)"
@@ -131,9 +150,8 @@ cmd_navigate() {
         return 0
     fi
 
-    total="$(wc -l < "$mru_file")" \
-        || die "read failed: $mru_file"
-    total="${total// /}"
+    # window mode walks the same stack deduped by window; pane mode walks it raw
+    total="$(nav_lines "$mode" "$mru_file" | grep -c .)"
     if [ "$total" -le 1 ]; then
         warn "only $total entry (need >=2 to navigate)"
         return 0
@@ -143,13 +161,13 @@ cmd_navigate() {
     if walk_until="$(tmux_env_get @mru_walk_until)" && [ "$now" -lt "$walk_until" ]; then
         cursor="$(tmux_env_get @mru_cursor)" || cursor=0
     else
-        # Fresh walk: ensure pos 0 = current pane. Walks suppress stack updates,
-        # so after expiry the stack top may not reflect where the user actually is.
+        # Fresh walk: ensure pos 0 = current pane/window. Walks suppress stack
+        # updates, so after expiry the top may not reflect where the user is.
         clear_walk_state
         wid="$(tmux display-message -p '#{window_id}')" || die "display-message failed"
         pid="$(tmux display-message -p '#{pane_id}')" || die "display-message failed"
         promote "$wid" "$pid" "$mru_file"
-        total="$(wc -l < "$mru_file")"; total="${total// /}"
+        total="$(nav_lines "$mode" "$mru_file" | grep -c .)"
         cursor=0
     fi
 
@@ -169,16 +187,21 @@ cmd_navigate() {
 
     local pruned=0
     while [ "$total" -gt 1 ]; do
-        line="$(sed -n "$((cursor + 1))p" "$mru_file")"
+        line="$(nav_lines "$mode" "$mru_file" | sed -n "$((cursor + 1))p")"
         [ -n "$line" ] || die "empty line at pos $((cursor+1))/$total in $mru_file"
         wid="${line%% *}" pid="${line##* }"
 
-        if tmux select-window -t "$wid" 2>/dev/null \
-                && tmux select-pane -t "$pid" 2>/dev/null; then
-            break
+        if [ "$mode" = window ]; then
+            tmux select-window -t "$wid" 2>/dev/null && break
+            remove_window "$wid" "$mru_file"
+        else
+            if tmux select-window -t "$wid" 2>/dev/null \
+                    && tmux select-pane -t "$pid" 2>/dev/null; then
+                break
+            fi
+            remove_entry "$line" "$mru_file"
         fi
 
-        remove_entry "$line" "$mru_file"
         pruned=$((pruned + 1))
         total=$((total - 1))
         [ "$cursor" -ge "$total" ] && cursor=0
@@ -192,9 +215,10 @@ cmd_navigate() {
 
     tmux_env_set @mru_cursor "$cursor"
 
-    local arrow
+    local arrow label="MRU"
     case "$direction" in back) arrow="◀" ;; forward) arrow="▶" ;; esac
-    local indicator="MRU $arrow $((cursor + 1))/$total"
+    [ "$mode" = window ] && label="MRU-WIN"
+    local indicator="$label $arrow $((cursor + 1))/$total"
     [ "$pruned" -gt 0 ] && indicator="$indicator (pruned $pruned)"
     tmux set-option @mru_walking "$indicator"
     tmux refresh-client -S
@@ -209,8 +233,10 @@ cmd_navigate() {
 # ── Navigation ───────────────────────────────────────────────────────────────
 
 case "${1:-}" in
-    hook)    cmd_hook ;;
-    back)    cmd_navigate back ;;
-    forward) cmd_navigate forward ;;
-    *)       die "unknown cmd '${1:-}' (usage: hook|back|forward)" ;;
+    hook)           cmd_hook ;;
+    back)           cmd_navigate back ;;
+    forward)        cmd_navigate forward ;;
+    back-window)    cmd_navigate back window ;;
+    forward-window) cmd_navigate forward window ;;
+    *)              die "unknown cmd '${1:-}' (usage: hook|back|forward|back-window|forward-window)" ;;
 esac
