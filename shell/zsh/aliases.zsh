@@ -23,7 +23,7 @@ alias rp='realpath'
 # ---------------------------------------------------------------------------
 # Clipboard
 # ---------------------------------------------------------------------------
-alias c='rcp'      # OSC 52 copy via rcp() in functions.zsh (SSH-friendly)
+alias c='rcp'      # clipboard copy via rcp() in functions.zsh (OSC 52 / tmux buffer, SSH-friendly)
 alias p='pbpaste'
 
 # ---------------------------------------------------------------------------

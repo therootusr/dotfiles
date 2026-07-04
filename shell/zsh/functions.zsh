@@ -96,11 +96,7 @@ function fzf_grep() {
 
   [[ -z "$result" ]] && return 0
 
-  if [[ -n "${TMUX:-}" ]]; then
-    printf '%s' "$result" | tmux load-buffer -w -
-  else
-    printf '%s' "$result" | rcp
-  fi
+  printf '%s' "$result" | rcp
 
   echo "$result"
 }
@@ -322,11 +318,46 @@ function sshp {
 # https://jvns.ca/til/vim-osc52/
 # rcp -> remote_cp : copy stdin to the clipboard via OSC 52 (SSH-friendly).
 # Strips trailing newline(s) so nothing stray lands in the clipboard.
+# In tmux: stdin goes to a tmux buffer (paste: prefix H) and the OSC 52 is
+# written straight to each client tty. tmux's own forward (load-buffer -w /
+# set-clipboard) rides the client output queue, which tmux discards wholesale
+# under backpressure (TTY_BLOCK in tty.c; threshold scales with window size,
+# ~83KB at 212x49) -- that made ~70KB+ forwards flaky and ~110KB+ ones fail.
+# iTerm2 3.6.11 caps the OSC 52 payload at 786430 base64 chars (768KiB OSC
+# buffer minus the 'c;' params), i.e. 589821 raw bytes; over that, rcp skips
+# the forward (tmux buffer still set) or refuses outside tmux, and returns 1
+# when the system clipboard wasn't set.
 function rcp() {
+  setopt localoptions nomultibyte  # ${#content} must count bytes, not characters
   local content
   content="$(cat)"               # command substitution strips trailing newlines
   [[ -z "$content" ]] && return 0  # don't clobber the clipboard on empty input
-  printf '\033]52;c;%s\007' "$(printf '%s' "$content" | base64 | tr -d '\n')"
+
+  local max=589821  # raw bytes; base64s to 786428 chars, under iTerm2's measured 786430 cap
+  local size=${#content}
+
+  if [[ -n "${TMUX:-}" ]]; then
+    printf '%s' "$content" | tmux load-buffer - || return
+    if [[ $size -gt $max ]]; then
+      echo "rcp: $size bytes > $max (over iTerm2's OSC 52 cap); copied to tmux buffer only, paste: prefix H" >&2
+      return 1
+    fi
+    local b64 tty forwarded=0
+    b64="$(printf '%s' "$content" | base64 | tr -d '\n')"
+    for tty in $(tmux list-clients -F '#{client_tty}'); do
+      [[ -w "$tty" ]] && printf '\033]52;c;%s\007' "$b64" > "$tty" && forwarded=1
+    done
+    if [[ $forwarded -eq 0 ]]; then
+      echo "rcp: no attached tmux client; copied to tmux buffer only, paste: prefix H" >&2
+      return 1
+    fi
+  else
+    if [[ $size -gt $max ]]; then
+      echo "rcp: $size bytes > $max (over iTerm2's OSC 52 cap); nothing copied" >&2
+      return 1
+    fi
+    printf '\033]52;c;%s\007' "$(printf '%s' "$content" | base64 | tr -d '\n')"
+  fi
 }
 
 # DEPRECATED: use "$ (cmd) $!" to disown (portable?)
