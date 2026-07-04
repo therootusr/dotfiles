@@ -1,0 +1,54 @@
+# tmux-copy-cmds.shell-prompts.example — the shell-prompt-type table for the
+# Alt+c command picker (tmux-copy-cmds.sh + tmux-copy-cmds.awk).
+#
+# Setup:
+#   1. cp this file somewhere, e.g. ~/.config/tmux/shell-prompts.tsv
+#   2. point TMUX_COPY_SHELL_PROMPTS at it (absolute path) where the tmux
+#      SERVER can see it. display-popup runs with the server environment, so
+#      an `export` in ~/.zshrc after the server started never reaches it —
+#      set it in ~/.zshenv or ~/.zprofile (read before the server starts), or:
+#        tmux set-environment -g TMUX_COPY_SHELL_PROMPTS ~/.config/tmux/shell-prompts.tsv
+#
+# Format — one prompt type per line, exactly two tab-separated fields:
+#
+#   <marker-ERE><TAB><num-prompt-lines-above>
+#
+#   marker-ERE        POSIX ERE (mawk dialect) matching a command-start line.
+#                     Taken as raw bytes, never trimmed — the bash row below
+#                     deliberately ends in a literal space. A literal tab
+#                     cannot appear inside it (tab is the field separator);
+#                     write [[:blank:]] instead. Anchor with ^ like every
+#                     sane marker (also: only a marker whose FIRST byte is
+#                     '#' would collide with comment syntax — ^-anchored
+#                     ones never do).
+#   num-prompt-lines-above
+#                     how many prompt lines this prompt paints ABOVE its
+#                     marker line (p10k's info line = 1; the marker line
+#                     itself is not counted). Trimmed from the tail of the
+#                     PREVIOUS block, which is what lets one scrollback mix
+#                     local and ssh prompt styles cleanly.
+#
+# Matching: a line matching a marker starts a command block; the text after
+# the marker match is the command (a marker with only whitespace after it is
+# a live/empty prompt — skipped, but it still ends the previous block). Rows
+# are tried in order and the FIRST match wins, so keep more-specific markers
+# first. When @copy-include-shell-prompt is 0 (the default), the strip is
+# exactly the marker match plus following whitespace.
+#
+# Fail-fast: there is no fallback table anywhere. If TMUX_COPY_SHELL_PROMPTS
+# is unset, the file is unreadable, any row is malformed (wrong field count,
+# empty ERE, non-numeric num-prompt-lines-above, CRLF/BOM), there are zero
+# rows, or an ERE does not compile, Alt+c aborts with a message — malformed
+# rows are never silently skipped.
+#
+# Lines whose first character is '#' are comments; blank/whitespace-only
+# lines are ignored. (The LF-only/no-BOM rule applies to every line,
+# comments included.)
+#
+# The stock rows: local zsh+p10k (marker '❯', one info line painted above it)
+# and ssh'd bash 'user@host:path$ ' (no prompt lines above). The bash path
+# part is [^ ]* on purpose: the match can never extend past the real prompt
+# into command text containing '$ ' — the flip side is that a cwd containing
+# a space is not detected.
+^❯	1
+^[^ ]+@[^ ]+:[^ ]*[#$] 	0
