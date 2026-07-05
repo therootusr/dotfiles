@@ -4,7 +4,9 @@ set -euo pipefail
 # tmux-copy-cmds.sh — fzf picker (Alt+c): copy command(s) + output from a tmux
 # pane's scrollback to the clipboard, reassembled in chronological order. The
 # list shows just the commands, newest first (bare Enter = most recent one);
-# TAB multi-selects; the preview shows the full block. Detection is regex on
+# TAB multi-selects; the preview shows the block as it appeared on screen —
+# the prompt's num-prompt-lines-above lines, the raw marker line, then the
+# output — picking context only, never copied. Detection is regex on
 # captured text (tmux exposes no OSC 133 marks to scripts); the shell-prompt-
 # type table lives in the file named by $TMUX_COPY_SHELL_PROMPTS — start from
 # tmux-copy-cmds.shell-prompts.example next to this script. Config problems
@@ -63,7 +65,7 @@ selected="$(sort -t$'\t' -k1,1nr "$WORKDIR/manifest" | fzf \
   --multi --no-sort --delimiter=$'\t' --with-nth=2 \
   --layout=reverse --prompt='copy-cmds> ' --marker='✓ ' --pointer='▌' \
   --header='TAB multi-select · Enter copy (chronological) · ↑newest' \
-  --preview "$BATCMD -l log --color=always --style=numbers --paging=never --line-range=:1000 {3} 2>/dev/null || cat {3}" \
+  --preview "$BATCMD -l log --color=always --style=numbers --paging=never --line-range=:1000 {4} 2>/dev/null || cat {4}" \
   --preview-window='right,60%,wrap,border-left')" || true
 [[ -z "$selected" ]] && exit 0
 

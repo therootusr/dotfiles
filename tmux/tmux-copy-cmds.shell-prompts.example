@@ -26,7 +26,9 @@
 #                     marker line (p10k's info line = 1; the marker line
 #                     itself is not counted). Trimmed from the tail of the
 #                     PREVIOUS block, which is what lets one scrollback mix
-#                     local and ssh prompt styles cleanly.
+#                     local and ssh prompt styles cleanly. The fzf preview
+#                     shows each block as painted on screen (lines-above +
+#                     raw marker line) — the lines-above are never copied.
 #
 # Matching: a line matching a marker starts a command block; the text after
 # the marker match is the command (a marker with only whitespace after it is

@@ -5,7 +5,12 @@
 #            PROMPTS SCROLLBACK
 #
 # Writes each block (prompt-stripped command line + its output) to dir/blk.<idx>
-# and prints one manifest line per block: <idx>\t<display_command>\t<block_file>.
+# and a preview twin to dir/blk-with-full-prompt.<idx> — the block as it
+# appeared on screen: the prompt's num-prompt-lines-above lines (p10k's
+# cwd/branch/time info line), the raw marker line, then the output. Picking
+# context only, independent of the include knob; the copy always comes from
+# blk.<idx>. Prints one manifest line per block:
+#   <idx>\t<display_command>\t<block_file>\t<preview_file>
 #   include_shell_prompt  (-v) 1 = keep the prompt marker in copied text
 #                         (not "include": gawk reserves its directive words
 #                         include/load/namespace as variable names, and the
@@ -83,11 +88,22 @@ END {
 
     e = (j < mc) ? m[j + 1] - NUM_PROMPT_LINES_ABOVE[mt[j + 1]] - 1 : nl
     file = dir "/blk." out
+    blk_with_full_prompt = dir "/blk-with-full-prompt." out
+    prompt_start = s - NUM_PROMPT_LINES_ABOVE[mt[j]]     # own prompt's first painted line
+    min_prompt_start = (j > 1) ? m[j - 1] + 1 : 1        # never reach back past the previous marker
+    if (prompt_start < min_prompt_start)
+      prompt_start = min_prompt_start
+    for (k = prompt_start; k <= s; k++)                  # the prompt as painted on screen,
+      print L[k] > blk_with_full_prompt                  # marker line included: preview-only
     print cmd > file
-    for (k = s + 1; k <= e; k++) print L[k] > file
+    for (k = s + 1; k <= e; k++) {
+      print L[k] > file
+      print L[k] > blk_with_full_prompt
+    }
     close(file)
+    close(blk_with_full_prompt)
     gsub(/\t/, " ", cmd)                           # keep the manifest tab-delimited
-    print out "\t" cmd "\t" file
+    print out "\t" cmd "\t" file "\t" blk_with_full_prompt
     out++
   }
 }
