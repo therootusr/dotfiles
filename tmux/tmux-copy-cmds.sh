@@ -5,8 +5,8 @@ set -euo pipefail
 # pane's scrollback to the clipboard, reassembled in chronological order. The
 # list shows just the commands in terminal order — oldest at top, newest at
 # the bottom next to the prompt, cursor starting there (bare Enter = most
-# recent one) — each row tagged ' │<idx>'; TAB multi-selects; the preview
-# shows the block as it appeared on screen —
+# recent one) — each row tagged ' │<idx>'; TAB multi-selects; ctrl-/ hides
+# the preview, which shows the block as it appeared on screen —
 # the prompt's num-prompt-lines-above lines, the raw marker line, then the
 # output — picking context only, never copied. Detection is regex on
 # captured text (tmux exposes no OSC 133 marks to scripts); the shell-prompt-
@@ -65,8 +65,11 @@ fi
 # layout (the first input line is drawn next to the prompt). The awk pass
 # decorates display field 2 only (the copy path reads fields 1/3): commands
 # pad to the longest one, capped, so the │ tags align — length() counts
-# bytes, so UTF-8-heavy rows can sit a column or two off. fzf matches on the
-# displayed field only (the --with-nth view), so typing an index narrows.
+# bytes, so UTF-8-heavy rows can sit a column or two off. fzf right-trims
+# overflowing rows ('··'): display-only — matching still sees the whole
+# field — and ctrl-/ hides the preview to show them at full width. fzf
+# matches on the displayed field only (the --with-nth view), so typing an
+# index narrows.
 selected="$(sort -t$'\t' -k1,1nr "$WORKDIR/manifest" | awk -F'\t' -v OFS='\t' -v cap=48 '
     { n++; L[n] = $0; c = length($2); if (c > w) w = c }
     END {
@@ -78,8 +81,9 @@ selected="$(sort -t$'\t' -k1,1nr "$WORKDIR/manifest" | awk -F'\t' -v OFS='\t' -v
       }
     }' | fzf \
   --multi --no-sort --delimiter=$'\t' --with-nth=2 \
-  --prompt='copy-cmds> ' --marker='✓ ' --pointer='▌' \
-  --header='TAB multi-select · Enter copy (chronological) · ↑older' \
+  --prompt='copy-cmds> ' --marker='✓ ' \
+  --bind 'ctrl-/:toggle-preview' \
+  --header='TAB multi-select · Enter copy (chronological) · ↑older · ctrl-/ preview' \
   --preview "$BATCMD -l log --color=always --style=numbers --paging=never --line-range=:1000 {4} 2>/dev/null || cat {4}" \
   --preview-window='right,60%,wrap,border-left')" || true
 [[ -z "$selected" ]] && exit 0
