@@ -47,10 +47,15 @@
 # lines are ignored. (The LF-only/no-BOM rule applies to every line,
 # comments included.)
 #
-# The stock rows: local zsh+p10k (marker '❯', one info line painted above it)
-# and ssh'd bash 'user@host:path$ ' (no prompt lines above). The bash path
-# part is [^ ]* on purpose: the match can never extend past the real prompt
-# into command text containing '$ ' — the flip side is that a cwd containing
-# a space is not detected.
+# The stock rows: local zsh+p10k plain ('❯') and framed ('╰─❯') markers,
+# plus their zsh-vi-mode normal-mode variants ('❮', '╰─❮'), each painting
+# one info/frame line above its marker; and ssh'd bash 'user@host:path$ '
+# (no prompt lines above). The bash path part is [^ ]* on purpose: the
+# match can never extend past the real prompt into command text
+# containing '$ ' — the flip side is that a cwd containing a space is
+# not detected.
 ^❯	1
+^❮	1
+^╰─❯	1
+^╰─❮	1
 ^[^ ]+@[^ ]+:[^ ]*[#$] 	0
