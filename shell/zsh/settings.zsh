@@ -33,6 +33,8 @@ export GOBIN=$HOME/.go/bin
 export HWATCH="--limit 20 --line-number --no-help-banner --no-title --border --color --with-scrollbar --differences word"
 export TMUX_EDITOR='vim -u $MY_DOTFILES_DIR/vim/workman.basic.vimrc'
 
+export MY_NVIM_INIT_CONF_FILE="$MY_DOTFILES_DIR/nvim/init.lua"
+
 # extended zsh_history
 setopt extended_history
 # add history immediately after typing a command

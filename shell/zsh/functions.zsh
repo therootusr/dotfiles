@@ -11,6 +11,10 @@ function vpq() {
   fi
 }
 
+function nv() {
+    nvim -u "$MY_NVIM_INIT_CONF_FILE" "$@"
+}
+
 # +10, -31 -> not int
 function is_unsigned_int () {
     case "$1" in

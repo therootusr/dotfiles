@@ -1,0 +1,39 @@
+{
+  "plugins": {
+    "gitsigns.nvim": {
+      "rev": "5be654f2232c10ddcad19c1607a67b6b4b78fc29",
+      "src": "https://github.com/lewis6991/gitsigns.nvim",
+      "version": "'main'"
+    },
+    "nvim-lspconfig": {
+      "rev": "615d7b2712efb2f530a83a9d0466acafba6b1d6f",
+      "src": "https://github.com/neovim/nvim-lspconfig",
+      "version": "'master'"
+    },
+    "nvim-treesitter": {
+      "rev": "0d0969030ad955b510d7c8012b40252a25c12a6d",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
+    "nvim-treesitter-textobjects": {
+      "rev": "5c7b0263797dfd1bd6202f2b219f3b53a80b2187",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+      "version": "'main'"
+    },
+    "plenary.nvim": {
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
+      "src": "https://github.com/nvim-lua/plenary.nvim",
+      "version": "'master'"
+    },
+    "telescope-fzf-native.nvim": {
+      "rev": "b25b749b9db64d375d782094e2b9dce53ad53a40",
+      "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
+      "version": "'main'"
+    },
+    "telescope.nvim": {
+      "rev": "40aedd8a68c78a656a10a8d62d80c54af59420fb",
+      "src": "https://github.com/nvim-telescope/telescope.nvim",
+      "version": "'master'"
+    }
+  }
+}
