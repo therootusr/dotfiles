@@ -33,7 +33,7 @@ alias ca='gcalcli agenda today tomorrow'
 alias cal='gcalcli'
 
 # ---------------------------------------------------------------------------
-# Editors: vim
+# vim
 # ---------------------------------------------------------------------------
 alias gv='v `git ls-files | fzf -m`'
 alias gvi='vim `git ls-files | fzf -m`'

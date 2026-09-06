@@ -30,12 +30,14 @@ ZSH_CONF_DIR="$(dirname $THIS_SCRIPT_PATH)"
 # though even without -m mac's realpath doesn't validate if a path comp is dir
 DOTFILES_ROOT_DIR=$(realpath "$ZSH_CONF_DIR"/../..)
 VIM_CONF_DIR="$DOTFILES_ROOT_DIR/vim"
+NVIM_CONF_DIR="$DOTFILES_ROOT_DIR/nvim"
 
 # TGT_DOTFILE_DIR="$HOME/.dotfiles"
 # mkdir -v $TGT_DOTFILE_DIR
 
 # ln -vs $VIM_CONF_DIR/workman.basic.vimrc $TGT_DOTFILE_DIR/.ideavimrc
 # ln -vs $VIM_CONF_DIR/workman.vimrc $HOME/.vimrc
+ln -s $NVIM_CONF_DIR/nvim-pack-lock.json ~/.config/nvim/nvim-pack-lock.json
 
 echo "INFO: creating '~/.ssh/cm_socket' if it doesn't exist"
 mkdir -p ~/.ssh/cm_socket
