@@ -112,7 +112,7 @@ alias tls='t ls'
 alias tlk='t list-keys'
 alias tks='t kill-server'
 
-alias tws='EDITOR=v TMUX_CONF=$MY_TMUX_CONF bash $MY_TMUX_CONF_DIR/tmux-workspace.sh'
+alias tws='TMUX_CONF=$MY_TMUX_CONF bash $MY_TMUX_CONF_DIR/tmux-workspace.sh'
 alias twsc='tws $MY_DOTFILES_DIR'
 alias twst='tws ~/workspace/tmp'
 alias twsp='tws "$(_fzf_pick_dir tmux-workspace)"'

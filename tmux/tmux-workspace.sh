@@ -61,23 +61,14 @@ function f_setup_tmux_workspace() {
   local session="$1"
   local root="$2"
   local ws_window="$3"
-  local editor="${EDITOR:-vim}"
 
-  # Create base session + layout.
+  # Create base session + window.
   if f_tmux has-session -t "$session" 2>/dev/null; then
     f_tmux new-window -t "$session" -c "$root" -n "$ws_window"
   else
     f_tmux new-session -d -s "$session" -c "$root" -n "$ws_window"
   fi
 
-  local right_pane_id=""
-  right_pane_id="$(f_tmux split-window -d -h -p 50 -P -F "#{pane_id}" -t "$session:$ws_window" -c "$root")"
-
-  # Pane 3 (right): editor
-  f_tmux send-keys -t "$right_pane_id" "$editor" C-m
-
-  f_tmux set-option -t "$session" @workspace_root "$root"
-  f_tmux set-option -t "$session" @workspace_vim_pane "$right_pane_id"
   f_tmux select-window -t "$session:$ws_window"
 }
 
