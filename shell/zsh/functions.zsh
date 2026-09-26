@@ -728,3 +728,7 @@ cshred() {
   done
   return "$rc"
 }
+
+function skopeo() {
+  podman run docker://quay.io/skopeo/stable:latest $@
+}
